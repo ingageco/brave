@@ -1,4 +1,4 @@
-pyyaml
+PyYaml
 gbulb
 sanic
 websockets
