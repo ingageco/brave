@@ -9,10 +9,10 @@ RUN apt-get update && \
         gstreamer1.0-libav gstreamer1.0-nice gstreamer1.0-plugins-bad gstreamer1.0-plugins-base \
         gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools \
         libcairo2-dev libgirepository1.0-dev pkg-config python3-gst-1.0 \
-        python3-dev python3-pip curl && \
+        python3-dev python3-pip curl locales && \
     ln -fs /usr/share/zoneinfo/America/Berlin /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
-    # localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output ~/miniconda.sh
