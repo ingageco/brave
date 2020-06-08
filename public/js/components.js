@@ -133,11 +133,6 @@ components.showDetails = () => '<i class="fas fa-caret-right"></i> Show details'
 
 components.getMixOptions = (src) => {
     return mixersHandler.items.map(mixer => {
-        try {
-            throw new Error("foo");
-        } catch (e) {
-            console.log({stack: e.stack, mixer})
-        }
         if (!mixer.sources) return
         if (src === mixer) return
         var foundThis = mixer.sources.find(x => x.uid === src.uid)
