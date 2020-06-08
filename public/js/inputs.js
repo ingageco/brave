@@ -53,7 +53,6 @@ inputsHandler._optionButtonsForInput = (input) => {
 
 inputsHandler._inputCardBody = (input) => {
     var details = []
-    console.log(input)
     if (input.uri) details.push('<div><code>' + input.uri + '</code></div>')
     if (input.hasOwnProperty('width') &&
         input.hasOwnProperty('height')) details.push('<strong>Input size:</strong> ' + prettyDimensions(input))
