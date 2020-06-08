@@ -136,8 +136,7 @@ components.getMixOptions = (src) => {
         try {
             throw new Error("foo");
         } catch (e) {
-            console.log()
-            console.log({stack: e.e.stack, mixer})
+            console.log({stack: e.stack, mixer})
         }
         if (!mixer.sources) return
         if (src === mixer) return
