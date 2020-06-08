@@ -35,7 +35,7 @@ outputsHandler._drawCards = () => {
 
 outputsHandler._asCard = (output) => {
     return components.card({
-        title: 'Output ' + output.id + ' (' + prettyType(output.type) + ')',
+        title: output.name || ('Output ' + output.id + ' (' + prettyType(output.type) + ')')    ,
         options: outputsHandler._optionButtonsForOutput(output),
         body: outputsHandler._outputCardBody(output),
         state: components.stateBox(output, outputsHandler.setState),
@@ -135,6 +135,13 @@ outputsHandler._populateForm = function(output) {
     else {
         form.append('<input type="hidden" name="id" value="' + output.id + '">')
     }
+    form.append(formGroup({
+        id: 'output-name',
+        label: 'Name',
+        name: 'name',
+        type: 'text',
+        value: output.name || ''
+    }))
     form.append(getSourceSelect(output, isNew))
     if (!output.type) {
     }
@@ -155,8 +162,8 @@ outputsHandler._populateForm = function(output) {
             label: 'Audio bitrate',
             name: 'audio_bitrate',
             type: 'number',
-            value: output.audio_bitrate || '',
-            help: 'Leave blank for default (128000)',
+            value: output.audio_bitrate || 320000,
+            help: 'Leave blank for default (320000)',
             min: 1000,
             step: 1000,
             max: 128000*16
@@ -171,7 +178,11 @@ outputsHandler._populateForm = function(output) {
             name: 'uri',
             type: 'text',
             value: output.uri || '',
-            help: 'Example: <code>rtmp://184.72.239.149/vod/BigBuckBunny_115k.mov</code>',
+            // TODO: from config + link to studios etc like:
+            help: 'Twitch: <code>rtmp://live-fra02.twitch.tv/app/{key}</code>(permanent key)<br>' +
+              'YouTube: <code>rtmp://a.rtmp.youtube.com/live2/{key}</code>(new Key everytime)<br>' +
+              'Facebook: <code>rtmps://live-api-s.facebook.com:443/rtmp/{key}</code>(permanent key)<br>+' +
+              'Mixcloud: <code>rtmp://rtmp.mixcloud.com/broadcast/{key}</code>(new Key everytime)',
         }));
     }
     else if (output.type === 'file') {
@@ -229,7 +240,7 @@ outputsHandler._handleFormSubmit = function() {
     var output = (id != null) ? outputsHandler.findById(id) : {}
     var newProps = {}
 
-    const fields = ['type', 'uri', 'host', 'port', 'container', 'location',
+    const fields = ['name', 'type', 'uri', 'host', 'port', 'container', 'location',
                     'audio_bitrate', 'dimensions', 'source', 'stream_name']
     fields.forEach(f => {
         var input = form.find('[name="' + f + '"]')
@@ -247,7 +258,7 @@ outputsHandler._handleFormSubmit = function() {
         return
     }
 
-    const VALID_TYPES = ['local', 'tcp', 'image', 'file', 'webrtc', 'kvs', 'rtmp']
+    const VALID_TYPES = ['local', 'tcp', 'image', 'file', 'webrtc', 'kvs', 'rtmp', 'localrestreamer']
     if (VALID_TYPES.indexOf(type) === -1) {
         showMessage('Invalid type ' + type)
         return

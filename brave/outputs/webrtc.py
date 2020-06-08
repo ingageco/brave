@@ -26,11 +26,11 @@ class WebRTCOutput(Output):
             **super().permitted_props(),
             'width': {
                 'type': 'int',
-                'default': 480
+                'default': config.default_mixer_width()
             },
             'height': {
                 'type': 'int',
-                'default': 270
+                'default': config.default_mixer_height()
             }
         }
 

@@ -14,11 +14,11 @@ class TestVideoInput(Input):
             },
             'width': {
                 'type': 'int',
-                'default': 640
+                'default': 1280
             },
             'height': {
                 'type': 'int',
-                'default': 360
+                'default': 720
             }
         }
 

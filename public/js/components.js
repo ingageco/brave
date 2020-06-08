@@ -133,6 +133,12 @@ components.showDetails = () => '<i class="fas fa-caret-right"></i> Show details'
 
 components.getMixOptions = (src) => {
     return mixersHandler.items.map(mixer => {
+        try {
+            throw new Error("foo");
+        } catch (e) {
+            console.log()
+            console.log({stack: e.e.stack, mixer})
+        }
         if (!mixer.sources) return
         if (src === mixer) return
         var foundThis = mixer.sources.find(x => x.uid === src.uid)
@@ -156,7 +162,7 @@ components.getMixOptions = (src) => {
             buttons.append([cutButton, overlayButton])
             div.append(buttons)
         }
-        div.append('<strong>Mixer ' + mixer.id + ':</strong> ' + inMix)
+        div.append('<strong>' + (mixer.name || 'Mixer ' + mixer.id) + ':</strong> ' + inMix)
         return div
     }).filter(x => !!x)
 }

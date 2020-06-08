@@ -27,7 +27,7 @@ class TCPOutput(Output):
             },
             'audio_bitrate': {
                 'type': 'int',
-                'default': 128000
+                'default': 320000
             },
             'container': {
                 'type': 'str',

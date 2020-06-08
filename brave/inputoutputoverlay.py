@@ -11,7 +11,7 @@ class InputOutputOverlay():
     An abstract superclass representing an input, output, overlay, and mixer.
     '''
     def __init__(self, **args):
-        for field in ['id', 'type', 'collection']:
+        for field in ['id', 'type', 'collection', 'name']:
             setattr(self, field, args[field])
         self.logger = brave.helpers.get_logger(self.input_output_overlay_or_mixer() + str(args['id']))
         self.elements = {}
@@ -55,6 +55,10 @@ class InputOutputOverlay():
             'id': {
                 'type': 'int',
                 'updatable': False
+            },
+            'name': {
+                'type': 'str',
+                'updatable': True
             },
             'state': {
                 'type': 'str',

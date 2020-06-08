@@ -14,6 +14,7 @@ default_mixer_height: 360
 ## DEFAULT INPUTS
 ## Here you can define inputs that should exist at startup.
 ## Types available: 'uri', 'image', 'test_video', 'test_audio'
+## Every input should have a 'name' attribute for the title row, to identify it like "Local Restreamer"
 ##
 inputs:
     # - type: uri
@@ -29,6 +30,7 @@ inputs:
 ## DEFAULT OUTPUTS
 ## Here you can define inputs that should exist at startup.
 ## Types available: 'rtmp', 'tcp, 'image', 'file', 'local'
+## Every output should have a 'name' attribute for the title row, to identify it like "Ottes - Twitch"
 ##
 outputs:
     # - type: local
@@ -42,6 +44,7 @@ outputs:
 ##
 ## DEFAULT OVERLAYS
 ## Types available: 'text', 'clock', 'effect'
+## Every overlay should have a 'name' attribute for the title row, to identify it
 ##
 overlays:
     # - type: text
@@ -58,10 +61,11 @@ overlays:
 ## DEFAULT MIXERS
 ## No 'type' field requided for mixers.
 ## 'props' can have 'width' and 'height' and 'pattern' (all integers)
+## Every mixer should have a 'name' attribute for the title row, to identify it like "Default Mixer"
 ##
 mixers:
     # Default to one mixer, with no specific props:
-    - {}
+    - name: Default Mixer
     # Add inputs to the mixer on start-up like this:
     # - sources:
     #     - uid: input1

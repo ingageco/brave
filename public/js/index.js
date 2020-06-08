@@ -144,26 +144,14 @@ function splitDimensionsIntoWidthAndHeight(obj) {
 
 // Widescreen, selectively taken from https://en.wikipedia.org/wiki/16:9#Common_resolutions
 var standardDimensions = [
-    [254, 144],
-    [480, 270],
+    [360, 640]
     [640, 360],
-    [768, 432],
-    [1024, 576],
+    [640, 640],
+    [720, 1280],
+    [1080, 1080],
+    [1080, 1920],
     [1280, 720],
-    [1366, 768],
-
-    // // Portrait
-    // [360, 640],
-    // [720, 1280],
-    //
-    // // Square
-    // [360, 360],
-    // [640, 640],
-    // [1080, 1080],
-    //
-    // // 4:3
-    // [640, 480],
-    // [704, 576],
+    [1920, 1080]
 ]
 
 function prettyDimensions(obj) {
@@ -181,18 +169,15 @@ function prettyDimensions(obj) {
         str += ' (square)'
     }
 
-    if (obj.width === 720 && obj.height === 576) str += ' (PAL DVD)'
     if (obj.width === 1280 && obj.height === 720) str += ' (720p HD)'
+    if (obj.width === 720 && obj.height === 1280) str += ' (720p HD (90°))'
     if (obj.width === 1920 && obj.height === 1080) str += ' (1080p Full HD)'
-    if (obj.width === 576 && obj.height === 520) str += ' (PAL SD)'
-    if (obj.width === 1024 && obj.height === 576) str += ' (Widescreen SD)'
-    if (obj.width === 1366 && obj.height === 768) str += ' (qHD)'
+    if (obj.width === 1080 && obj.height === 1920) str += ' (1080p Full HD (90°))'
     return str
 }
 
 function prettyType(i) {
     i = i.replace(/_/g, ' ')
-    // i = i.replace(/./, i.toUpperCase()[0])
     return i
 }
 

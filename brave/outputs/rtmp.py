@@ -11,6 +11,10 @@ class RTMPOutput(Output):
         return {
             **super().permitted_props(),
             'uri': {
+                'type': 'str',
+                'default': 'rmtp://'
+            },
+            'token': {
                 'type': 'str'
             },
             'width': {

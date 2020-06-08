@@ -19,14 +19,17 @@ class TcpClientInput(Input):
             },
             'port': {
                 'type': 'int',
-                'required': True
+                'default': 1935,
+                'required': True,
             },
             'width': {
-                'type': 'int'
+                'type': 'int',
+                'default': 1280
             },
             'height': {
-                'type': 'int'
-            },
+                'type': 'int',
+                'default': 720
+            }
             'container': {
                 'type': 'str',
                 'default': 'mpeg',

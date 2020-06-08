@@ -13,11 +13,11 @@ class LocalOutput(Output):
             **super().permitted_props(),
             'width': {
                 'type': 'int',
-                'default': 640,
+                'default': config.default_mixer_width(),
             },
             'height': {
                 'type': 'int',
-                'default': 360
+                'default': config.default_mixer_height()
             }
         }
 

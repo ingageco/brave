@@ -39,7 +39,7 @@ mixersHandler._drawCards = () => {
 
 mixersHandler._asCard = (mixer) => {
     return components.card({
-        title: 'Mixer ' + mixer.id,
+        title: mixer.name || 'Mixer ' + mixer.id,
         options: mixersHandler._optionButtonsForMixer(mixer),
         body: mixersHandler._mixerCardBody(mixer),
         state: components.stateBox(mixer, mixersHandler.setState),
@@ -79,7 +79,7 @@ mixersHandler._sendMixerCommand = function(mixer, source, command) {
 
 mixersHandler._showForm = function(mixer) {
     mixersHandler.currentForm = $('<form></form>')
-    var label = mixer && mixer.hasOwnProperty('id') ? 'Edit mixer ' + mixer.id : 'Add mixer'
+    var label = mixer && mixer.hasOwnProperty('id') ? 'Edit mixer ' + mixer.name || mixer.id : 'Add mixer'
     showModal(label, mixersHandler.currentForm, mixersHandler._handleFormSubmit)
     mixersHandler._populateForm(mixer)
 }
@@ -91,6 +91,8 @@ mixersHandler._populateForm = function(mixer) {
     if (mixer.hasOwnProperty('id')) {
         form.append('<input type="hidden" name="id" value="' + mixer.id + '">')
     }
+
+    form.append()
 
     form.append(getDimensionsSelect('dimensions', mixer.width, mixer.height))
 

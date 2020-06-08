@@ -14,6 +14,7 @@ class UriInput(Input):
             **super().permitted_props(),
             'uri': {
                 'type': 'str',
+                'default': 'rtmp://localhost:1935/live/external.stream?token=token'
             },
             'buffer_duration': {
                 'type': 'int',
@@ -27,13 +28,15 @@ class UriInput(Input):
             },
             'volume': {
                 'type': 'float',
-                'default': 0.8
+                'default': 1.0
             },
             'width': {
-                'type': 'int'
+                'type': 'int',
+                'default': 1280
             },
             'height': {
-                'type': 'int'
+                'type': 'int',
+                'default': 720
             }
         }
 

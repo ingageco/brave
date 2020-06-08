@@ -33,7 +33,7 @@ inputsHandler._drawCards = () => {
 
 inputsHandler._asCard = (input) => {
     return components.card({
-        title: prettyUid(input.uid) + ' (' + prettyType(input.type) + ')',
+        title: input.name || prettyUid(input.uid) + ' (' + prettyType(input.type) + ')',
         options: inputsHandler._optionButtonsForInput(input),
         body: inputsHandler._inputCardBody(input),
         state: components.stateBox(input, inputsHandler.setState),
@@ -105,9 +105,8 @@ inputsHandler._populateForm = function(input) {
 
     var uriExamples = ''
     if (input.type && input.type === 'uri') {
-        uriExamples = 'RTMP example: <code>rtmp://184.72.239.149/vod/BigBuckBunny_115k.mov</code></div>' +
-        '<div>RTSP example: <code>rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov</code></div>' +
-        '<div>Example: <code>file:///tmp/my_movie.mp4</code>'
+        uriExamples = 'RTMP example: <code>rtmp://localhost:1935/live/external.stream?token=token</code></div>' +
+        '<div>Local File Example: <code>file:///home/ottes/video/out.mp4</code>'
     }
     else if (input.type && input.type === 'image') {
         uriExamples = 'Enter a local or URL location of a JPG, PNG, or SVG file.'
@@ -121,7 +120,7 @@ inputsHandler._populateForm = function(input) {
         value: input.loop
     })
 
-    const bufferDuationBox = formGroup({
+    const bufferDurationBox = formGroup({
         id: 'input-buffer-duration',
         label: 'Buffer duaration (seconds)',
         name: 'buffer_duration',
@@ -135,7 +134,7 @@ inputsHandler._populateForm = function(input) {
         label: 'Hostname',
         name: 'host',
         type: 'text',
-        value: input.host || '0.0.0.0'
+        value: (input.host || '0.0.0.0')
     })
 
     const portBox = formGroup({
@@ -143,7 +142,7 @@ inputsHandler._populateForm = function(input) {
         label: 'Port',
         name: 'port',
         type: 'number',
-        value: input.port
+        value: (input.port || 1935)
     })
 
     const containerBox = formGroup({
@@ -161,6 +160,14 @@ inputsHandler._populateForm = function(input) {
         type: 'text',
         value: input.uri || '',
         help: uriExamples,
+    })
+
+    var nameRow = formGroup({
+        id: 'input-name',
+        label: 'Name',
+        name: 'name',
+        type: 'text',
+        value: input.name || ''
     })
 
     const sizeBox = getDimensionsSelect('dimensions', input.width, input.height)
@@ -241,6 +248,8 @@ inputsHandler._populateForm = function(input) {
             options,
             value: input.type
         }))
+
+        form.append(nameRow)
     }
     else {
         form.append('<input type="hidden" name="id" value="' + input.id + '">')
@@ -249,6 +258,7 @@ inputsHandler._populateForm = function(input) {
     if (!input.type) {
     }
     else if (input.type === 'test_audio') {
+
         form.append();
         form.append(components.volumeInput(input.volume));
         form.append(waveBox);
@@ -267,7 +277,7 @@ inputsHandler._populateForm = function(input) {
         form.append(loopBox);
         form.append(sizeBox);
         form.append(components.volumeInput(input.volume));
-        form.append(bufferDuationBox)
+        form.append(bufferDurationBox)
     }
     else if (input.type === 'html') {
         if (isNew) form.append(uriRow);
@@ -295,7 +305,7 @@ inputsHandler._handleFormSubmit = function() {
     const input = isNew ? {} : inputsHandler.findById(id)
     const newProps = {}
 
-    fields = ['type', 'uri', 'position', 'dimensions', 'freq', 'volume', 'input_volume', 'pattern', 'wave', 'buffer_duration', 'host', 'port', 'container']
+    fields = ['name', 'type', 'uri', 'position', 'dimensions', 'freq', 'volume', 'input_volume', 'pattern', 'wave', 'buffer_duration', 'host', 'port', 'container']
     fields.forEach(function(f) {
         var input = form.find('[name="' + f + '"]')
         if (input && input.val() !== null && input.val() !== '') {

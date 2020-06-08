@@ -11,7 +11,7 @@ class TestAudioInput(Input):
             **super().permitted_props(),
             'freq': {
                 'type': 'int',
-                'default': 440
+                'default': 120
             },
             'wave': {
                 'type': 'int',
@@ -19,7 +19,7 @@ class TestAudioInput(Input):
             },
             'volume': {
                 'type': 'float',
-                'default': 0.8
+                'default': 0.6
             }
         }
 
