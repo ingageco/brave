@@ -29,7 +29,7 @@ class TcpClientInput(Input):
             'height': {
                 'type': 'int',
                 'default': 720
-            }
+            },
             'container': {
                 'type': 'str',
                 'default': 'mpeg',
