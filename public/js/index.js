@@ -75,8 +75,13 @@ function getDimensionsSelect(name, width, height) {
     var dimensionsOptions = {}
     dimensionsOptions[currentDimensions] = prettyDimensions({width: width, height: height})
     standardDimensions.forEach(d => {
-        dimensions = d[0] + 'x' + d[1]
-        dimensionsOptions[dimensions] = prettyDimensions({width: d[0], height: d[1]})
+        if (Array.isArray(d)) {
+            dimensions = d[0] + 'x' + d[1]
+            dimensionsOptions[dimensions] = prettyDimensions({width: d[0], height: d[1]})
+        } else {
+            console.log('invalid dimensions', d)
+        }
+
     })
 
     return formGroup({
