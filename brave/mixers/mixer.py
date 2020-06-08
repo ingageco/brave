@@ -27,15 +27,18 @@ class Mixer(InputOutputOverlay):
             **super().permitted_props(),
             'name': {
                 'type': 'str',
-                'default': 'Mixer Nr '
+                'default': 'Mixer Nr ',
+                'updatable': True
             },
             'width': {
                 'type': 'int',
-                'default': config.default_mixer_width()
+                'default': config.default_mixer_width(),
+                'updatable': True
             },
             'height': {
                 'type': 'int',
-                'default': config.default_mixer_height()
+                'default': config.default_mixer_height(),
+                'updatable': True
             },
             'pattern': {
                 'type': 'int',
