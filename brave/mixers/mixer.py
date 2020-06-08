@@ -26,7 +26,7 @@ class Mixer(InputOutputOverlay):
         return {
             **super().permitted_props(),
             'name': {
-                'type': 'name',
+                'type': 'str',
                 'default': 'Mixer Nr '
             },
             'width': {
