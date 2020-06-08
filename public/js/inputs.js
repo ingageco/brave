@@ -248,12 +248,12 @@ inputsHandler._populateForm = function(input) {
             options,
             value: input.type
         }))
-
-        form.append(nameRow)
     }
     else {
         form.append('<input type="hidden" name="id" value="' + input.id + '">')
     }
+
+    form.append(nameRow)
 
     if (!input.type) {
     }
