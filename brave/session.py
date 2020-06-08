@@ -76,19 +76,13 @@ class Session(object):
         Create the inputs/outputs/mixers/overlays declared in the config file.
         '''
         for mixer_config in config.mixers():
-            print('mixer config:')
-            print(mixer_config) # TODO: remove
             self.mixers.add(**mixer_config)
 
         for input_config in config.inputs():
-            print('input config:')
-            print(input_config) # TODO: remove
             input = self.inputs.add(**input_config)
             input.setup()
 
         for output_config in config.outputs():
-            print('output config:')
-            print(output_config) # TODO: remove
             self.outputs.add(**output_config)
 
         for id, mixer in self.mixers.items():
