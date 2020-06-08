@@ -97,7 +97,7 @@ mixersHandler._populateForm = function(mixer) {
         name: 'name',
         type: 'text',
         value: mixer.name || ''
-    })
+    }))
     form.append(getDimensionsSelect('dimensions', mixer.width, mixer.height))
     form.append(formGroup({
         id: 'mixer-pattern',
