@@ -181,7 +181,7 @@ outputsHandler._populateForm = function(output) {
             // TODO: from config + link to studios etc like:
             help: 'Twitch: <code>rtmp://live-fra02.twitch.tv/app/{key}</code>(permanent key)<br>' +
               'YouTube: <code>rtmp://a.rtmp.youtube.com/live2/{key}</code>(new Key everytime)<br>' +
-              'Facebook: <code>rtmps://live-api-s.facebook.com:443/rtmp/{key}</code>(permanent key)<br>+' +
+              'Facebook: <code>rtmps://live-api-s.facebook.com:443/rtmp/{key}</code>(permanent key)<br>' +
               'Mixcloud: <code>rtmp://rtmp.mixcloud.com/broadcast/{key}</code>(new Key everytime)',
         }));
     }
