@@ -25,11 +25,6 @@ class Mixer(InputOutputOverlay):
     def permitted_props(self):
         return {
             **super().permitted_props(),
-            'name': {
-                'type': 'str',
-                'default': 'Mixer Nr ',
-                'updatable': True
-            },
             'width': {
                 'type': 'int',
                 'default': config.default_mixer_width(),
