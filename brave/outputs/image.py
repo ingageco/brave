@@ -12,6 +12,10 @@ class ImageOutput(Output):
     def permitted_props(self):
         return {
             **super().permitted_props(),
+            'itemname': {
+                'type': 'str',
+                'updatable': True
+            },
             'width': {
                 'type': 'int',
                 'default': config.default_mixer_width()

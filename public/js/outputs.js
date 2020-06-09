@@ -35,7 +35,7 @@ outputsHandler._drawCards = () => {
 
 outputsHandler._asCard = (output) => {
     return components.card({
-        title: output.name || ('Output ' + output.id + ' (' + prettyType(output.type) + ')')    ,
+        title: output.itemname || ('Output ' + output.id + ' (' + prettyType(output.type) + ')')    ,
         options: outputsHandler._optionButtonsForOutput(output),
         body: outputsHandler._outputCardBody(output),
         state: components.stateBox(output, outputsHandler.setState),
@@ -138,9 +138,9 @@ outputsHandler._populateForm = function(output) {
     form.append(formGroup({
         id: 'output-name',
         label: 'Name',
-        name: 'name',
+        name: 'itemname',
         type: 'text',
-        value: output.name || ''
+        value: output.itemname || ''
     }))
     form.append(getSourceSelect(output, isNew))
     if (!output.type) {
@@ -240,7 +240,7 @@ outputsHandler._handleFormSubmit = function() {
     var output = (id != null) ? outputsHandler.findById(id) : {}
     var newProps = {}
 
-    const fields = ['name', 'type', 'uri', 'host', 'port', 'container', 'location',
+    const fields = ['itemname', 'type', 'uri', 'host', 'port', 'container', 'location',
                     'audio_bitrate', 'dimensions', 'source', 'stream_name']
     fields.forEach(f => {
         var input = form.find('[name="' + f + '"]')

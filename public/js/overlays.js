@@ -27,7 +27,7 @@ overlaysHandler._drawCards = () => {
 
 overlaysHandler._asCard = (overlay) => {
     return components.card({
-        title: overlay.name || ('Overlay ' + overlay.id + ' (' + prettyType(overlay.type) + ')'),
+        title: 'Overlay ' + overlay.id + ' (' + prettyType(overlay.type) + ')',
         options: overlaysHandler._optionButtonsForOverlay(overlay),
         body: overlaysHandler._overlayCardBody(overlay),
         mixOptions: overlaysHandler._getMixOptions(overlay)
@@ -134,13 +134,7 @@ overlaysHandler._populateForm = function(overlay) {
     else {
         form.append('<input type="hidden" name="id" value="' + overlay.id + '">')
     }
-    form.append(formGroup({
-        id: 'output-name',
-        label: 'Name',
-        name: 'name',
-        type: 'text',
-        value: overlay.name || ''
-    }))
+
     form.append(getSourceSelect(overlay, isNew))
     if (!overlay.type) {
     }
@@ -186,7 +180,7 @@ overlaysHandler._handleFormSubmit = function() {
     var overlay = (id != null) ? overlaysHandler.findById(id) : {}
     var newProps = {}
 
-    const fields = ['name', 'type', 'text', 'valignment', 'effect_name', 'source']
+    const fields = ['type', 'text', 'valignment', 'effect_name', 'source']
     fields.forEach(f => {
         var overlay = form.find('[name="' + f + '"]')
         if (overlay && overlay.val() != null) {

@@ -12,6 +12,10 @@ class UriInput(Input):
     def permitted_props(self):
         return {
             **super().permitted_props(),
+            'itemname': {
+                'type': 'str',
+                'updatable': True
+            },
             'uri': {
                 'type': 'str',
                 'default': 'rtmp://localhost:1935/live/external.stream?token=token'

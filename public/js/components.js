@@ -156,7 +156,7 @@ components.getMixOptions = (src) => {
             buttons.append([cutButton, overlayButton])
             div.append(buttons)
         }
-        div.append('<strong>' + (mixer.name || 'Mixer ' + mixer.id) + ':</strong> ' + inMix)
+        div.append('<strong>' + 'Mixer ' + mixer.id + ':</strong> ' + inMix)
         return div
     }).filter(x => !!x)
 }

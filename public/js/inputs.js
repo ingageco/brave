@@ -33,7 +33,7 @@ inputsHandler._drawCards = () => {
 
 inputsHandler._asCard = (input) => {
     return components.card({
-        title: input.name || prettyUid(input.uid) + ' (' + prettyType(input.type) + ')',
+        title: input.itemname || (prettyUid(input.uid) + ' (' + prettyType(input.type) + ')'),
         options: inputsHandler._optionButtonsForInput(input),
         body: inputsHandler._inputCardBody(input),
         state: components.stateBox(input, inputsHandler.setState),
@@ -165,9 +165,9 @@ inputsHandler._populateForm = function(input) {
     var nameRow = formGroup({
         id: 'input-name',
         label: 'Name',
-        name: 'name',
+        name: 'itemname',
         type: 'text',
-        value: input.name || ''
+        value: input.itemname || ''
     })
 
     const sizeBox = getDimensionsSelect('dimensions', input.width, input.height)
@@ -305,7 +305,7 @@ inputsHandler._handleFormSubmit = function() {
     const input = isNew ? {} : inputsHandler.findById(id)
     const newProps = {}
 
-    fields = ['name', 'type', 'uri', 'position', 'dimensions', 'freq', 'volume', 'input_volume', 'pattern', 'wave', 'buffer_duration', 'host', 'port', 'container']
+    fields = ['itemname', 'type', 'uri', 'position', 'dimensions', 'freq', 'volume', 'input_volume', 'pattern', 'wave', 'buffer_duration', 'host', 'port', 'container']
     fields.forEach(function(f) {
         var input = form.find('[name="' + f + '"]')
         if (input && input.val() !== null && input.val() !== '') {

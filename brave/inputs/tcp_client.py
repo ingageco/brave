@@ -13,6 +13,10 @@ class TcpClientInput(Input):
     def permitted_props(self):
         return {
             **super().permitted_props(),
+            'itemname': {
+                'type': 'str',
+                'updatable': True
+            },
             'host': {
                 'type': 'str',
                 'required': True

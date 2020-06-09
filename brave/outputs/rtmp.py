@@ -10,6 +10,10 @@ class RTMPOutput(Output):
     def permitted_props(self):
         return {
             **super().permitted_props(),
+            'itemname': {
+                'type': 'str',
+                'updatable': True
+            },
             'uri': {
                 'type': 'str',
                 'default': 'rmtp://'
