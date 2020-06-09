@@ -92,7 +92,7 @@ class Mixer(InputOutputOverlay):
                 connection = self.connection_for_source(source_block, create_if_not_made=True)
                 if 'in_mix' not in details or details['in_mix']:
                     connection.add_to_mix(details)
-                #    connection.remove_from_mix(details)
+                #    connection.remove_from_mix(details) # TODO: problem when from config?
                 # else:
                 #    connection.add_to_mix(details)
             else:
