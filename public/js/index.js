@@ -2,6 +2,18 @@
 // This web interface has been quickly thrown together. It's not production code.
 //
 
+// Widescreen, selectively taken from https://en.wikipedia.org/wiki/16:9#Common_resolutions
+var standardDimensions = [
+    [360, 640]
+    [640, 360],
+    [640, 640],
+    [720, 1280],
+    [1080, 1080],
+    [1080, 1920],
+    [1280, 720],
+    [1920, 1080]
+]
+
 function onPageLoad() {
     $(document).ready(function() {
         $('#new-input-button').click(inputsHandler.showFormToAdd)
@@ -74,6 +86,7 @@ function getDimensionsSelect(name, width, height) {
     var currentDimensions = width && height ? width + 'x' + height : null
     var dimensionsOptions = {}
     dimensionsOptions[currentDimensions] = prettyDimensions({width: width, height: height})
+    console.log({standardDimensions})
     standardDimensions.filer(d => Array.isArray(d)).forEach(d => {
         dimensions = d[0] + 'x' + d[1]
         dimensionsOptions[dimensions] = prettyDimensions({width: d[0], height: d[1]})
@@ -141,18 +154,6 @@ function splitDimensionsIntoWidthAndHeight(obj) {
     delete obj.dimensions // also deletes if empty string
     return true
 }
-
-// Widescreen, selectively taken from https://en.wikipedia.org/wiki/16:9#Common_resolutions
-var standardDimensions = [
-    [360, 640]
-    [640, 360],
-    [640, 640],
-    [720, 1280],
-    [1080, 1080],
-    [1080, 1920],
-    [1280, 720],
-    [1920, 1080]
-]
 
 function prettyDimensions(obj) {
     var str = obj.width + 'x' + obj.height
