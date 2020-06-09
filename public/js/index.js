@@ -86,8 +86,7 @@ function getDimensionsSelect(name, width, height) {
     var currentDimensions = width && height ? width + 'x' + height : null
     var dimensionsOptions = {}
     dimensionsOptions[currentDimensions] = prettyDimensions({width: width, height: height})
-    console.log({standardDimensions})
-    standardDimensions.filer(d => Array.isArray(d)).forEach(d => {
+    standardDimensions.filter(d => Array.isArray(d)).forEach(d => {
         dimensions = d[0] + 'x' + d[1]
         dimensionsOptions[dimensions] = prettyDimensions({width: d[0], height: d[1]})
     })
