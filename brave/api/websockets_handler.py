@@ -29,7 +29,11 @@ class WebsocketsHandler():
             try:
                 HEARTBEAT_PERIOD = 5
                 while True:
-                    await ws.send(json.dumps({'msg_type': 'ping', 'cpu_percent': psutil.cpu_percent(interval=0)}))
+                    await ws.send(json.dumps({
+                        'msg_type': 'ping',
+                        'cpu_percent': psutil.cpu_percent(interval=0),
+                        'mem_free': psutil.virtual_memory().percent
+                    }))
                     await asyncio.sleep(HEARTBEAT_PERIOD)
             except websockets.ConnectionClosed:
                 if ws in self._websocket_clients:
