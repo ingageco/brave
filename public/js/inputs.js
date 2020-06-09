@@ -268,12 +268,12 @@ inputsHandler._populateForm = function(input) {
     }
     else if (input.type === 'image') {
         if (isNew) form.append(uriRow);
-        form.append(nameBow);
+        form.append(nameBox);
         form.append(sizeBox);
     }
     else if (input.type === 'uri') {
         if (isNew) form.append(uriRow);
-        form.append(nameBow);
+        form.append(nameBox);
         form.append(loopBox);
         form.append(sizeBox);
         form.append(components.volumeInput(input.volume));
