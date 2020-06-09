@@ -193,7 +193,7 @@ outputsHandler._populateForm = function(output) {
             name: 'location',
             type: 'text',
             value: output.location || '',
-            help: 'Example: <code>/tmp/foo.mp4</code>',
+            help: 'Example: <code>/tmp/foo-{}.mp4</code> ({} => YYYY-MM-DD_HH:MM)',
         }));
     }
     else if (output.type === 'kvs') {

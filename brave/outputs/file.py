@@ -1,7 +1,7 @@
 from brave.outputs.output import Output
+from datetime import datetime
 import brave.config as config
 from gi.repository import Gst
-
 
 class FileOutput(Output):
     '''
@@ -11,10 +11,6 @@ class FileOutput(Output):
     def permitted_props(self):
         return {
             **super().permitted_props(),
-            'itemname': {
-                'type': 'str',
-                'updatable': True
-            },
             'width': {
                 'type': 'int',
                 'default': config.default_mixer_width()
@@ -25,7 +21,7 @@ class FileOutput(Output):
             },
             'location': {
                 'type': 'str',
-                'default': '/home/ottes/video/out.mp4'
+                'required': True
             }
         }
 
@@ -44,10 +40,13 @@ class FileOutput(Output):
 
             pipeline_string = pipeline_string + ' ' + audio_pipeline_string
 
+        now = datetime.now()
+        location = self.location.format(now.strftime("%Y-%m-%d_%H:%M"))
+
         self.create_pipeline_from_string(pipeline_string)
-        self.logger.debug('Writing to the file ' + self.location)
+        self.logger.debug('Writing to the file ' + location)
         sink = self.pipeline.get_by_name('sink')
-        sink.set_property('location', self.location)
+        sink.set_property('location', location)
 
         if config.enable_video():
             self.video_encoder = self.pipeline.get_by_name('video_encoder')
