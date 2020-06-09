@@ -135,13 +135,6 @@ outputsHandler._populateForm = function(output) {
     else {
         form.append('<input type="hidden" name="id" value="' + output.id + '">')
     }
-    form.append(formGroup({
-        id: 'output-name',
-        label: 'Name',
-        name: 'itemname',
-        type: 'text',
-        value: output.itemname || ''
-    }))
     form.append(getSourceSelect(output, isNew))
     if (!output.type) {
     }
@@ -172,6 +165,14 @@ outputsHandler._populateForm = function(output) {
         form.append(getDimensionsSelect('dimensions', output.width, output.height))
     }
     else if (output.type === 'rtmp') {
+        form.append(formGroup({
+            id: 'output-name',
+            label: 'Streams Name',
+            name: 'itemname',
+            type: 'text',
+            value: output.itemname || '',
+            help: 'e.g.: <code>Ottes Twitch</code>'
+        }))
         form.append(formGroup({
             id: 'output-uri',
             label: 'Location (URI)',
@@ -258,7 +259,7 @@ outputsHandler._handleFormSubmit = function() {
         return
     }
 
-    const VALID_TYPES = ['local', 'tcp', 'image', 'file', 'webrtc', 'kvs', 'rtmp', 'localrestreamer']
+    const VALID_TYPES = ['local', 'tcp', 'image', 'file', 'webrtc', 'kvs', 'rtmp']
     if (VALID_TYPES.indexOf(type) === -1) {
         showMessage('Invalid type ' + type)
         return
