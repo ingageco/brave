@@ -104,5 +104,5 @@ websocket._handleDelete = function(item) {
 }
 
 websocket._setCpuPercent = (num, mem=0) => {
-    $('#cpu-stats').empty().html('CPU usage: ' + num + '%' + (mem)?('<br>Mem Usage: ' + mem + '%'):'')
+    $('#cpu-stats').empty().html(('CPU usage: ' + num + '%') + (mem)?('<br>Mem Usage: ' + mem + '%'):'')
 }
