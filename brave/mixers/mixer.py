@@ -90,10 +90,11 @@ class Mixer(InputOutputOverlay):
             source_block = self.session().uid_to_block(details['uid'])
             if source_block:
                 connection = self.connection_for_source(source_block, create_if_not_made=True)
-                if 'in_mix' in details and not details['in_mix']:
-                    connection.remove_from_mix(details)
-                else:
+                if 'in_mix' not in details or details['in_mix']:
                     connection.add_to_mix(details)
+                #    connection.remove_from_mix(details)
+                # else:
+                #    connection.add_to_mix(details)
             else:
                 raise brave.exceptions.InvalidConfiguration(
                     '%s "sources" property references unknown block "%s"' % (self.uid, details['uid']))
