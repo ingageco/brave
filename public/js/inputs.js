@@ -162,14 +162,6 @@ inputsHandler._populateForm = function(input) {
         help: uriExamples,
     })
 
-    var nameRow = formGroup({
-        id: 'input-name',
-        label: 'Name',
-        name: 'itemname',
-        type: 'text',
-        value: input.itemname || ''
-    })
-
     const sizeBox = getDimensionsSelect('dimensions', input.width, input.height)
 
     var patternBox = formGroup({
@@ -253,7 +245,13 @@ inputsHandler._populateForm = function(input) {
         form.append('<input type="hidden" name="id" value="' + input.id + '">')
     }
 
-    form.append(nameRow)
+    var nameBox = formGroup({
+        id: 'input-name',
+        label: 'Name',
+        name: 'itemname',
+        type: 'text',
+        value: input.itemname || ''
+    })
 
     if (!input.type) {
     }
@@ -270,10 +268,12 @@ inputsHandler._populateForm = function(input) {
     }
     else if (input.type === 'image') {
         if (isNew) form.append(uriRow);
+        form.append(nameBow);
         form.append(sizeBox);
     }
     else if (input.type === 'uri') {
         if (isNew) form.append(uriRow);
+        form.append(nameBow);
         form.append(loopBox);
         form.append(sizeBox);
         form.append(components.volumeInput(input.volume));
