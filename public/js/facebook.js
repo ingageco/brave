@@ -17,6 +17,7 @@ FBWrapper.init = () => {
 }
 
 FBWrapper.changeLogin = (response, initial = false) => {
+    console.log({response, initial})
     if (response.status === 'connected') {
         FBWrapper.token.bearer = response.authResponse.accessToken
         FBWrapper.token.userID = response.authResponse.userID
