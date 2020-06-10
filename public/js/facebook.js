@@ -26,7 +26,8 @@ FBWrapper.changeLogin = (response) => {
         FBWrapper.lastStatus = response.status
         if (response.status === 'connected') {
             console.log('connected')
-            FBWrapper.token.bearer = response.authResponse.accessToken
+            // problem, evtl accessToken-copy helps
+            FBWrapper.token.bearer = JSON.parse(JSON.stringify(response.authResponse.accessToken))
             FBWrapper.token.userID = response.authResponse.userID
             // expiresIn are seconds, we want expiresAt in ms
             FBWrapper.token.expiresAt = Date.now() + (response.authResponse.expiresIn * 1000)
