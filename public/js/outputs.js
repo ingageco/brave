@@ -62,8 +62,8 @@ outputsHandler._outputCardBody = (output) => {
         details.push('<strong>Container:</strong> <code>' + output.container + '</code>')
     }
 
-    if (output.hasOwnProperty('facebookStreamId')) {
-        details.push('<strong>FB Live ID</strong> <a href="https://www.facebook.com/live/producer/' + output.facebookStreamId + '" target="_blank">' + output.facebookStreamId + '</a>')
+    if (output.hasOwnProperty('facebookstreamid')) {
+        details.push('<strong>FB Live ID</strong> <a href="https://www.facebook.com/live/producer/' + output.facebookstreamid + '" target="_blank">' + output.facebookStreamId + '</a>')
     }
 
     if (output.hasOwnProperty('width') && output.hasOwnProperty('height')) {
@@ -318,7 +318,7 @@ outputsHandler._handleFormSubmit = function() {
                 form.append(formGroup({
                     id: 'output-facebook-stream-id',
                     label: 'Facebook Stream ID',
-                    name: 'facebookStreamId',
+                    name: 'facebookstreamid',
                     type: 'text',
                     value: streamId
                 }));

@@ -24,7 +24,7 @@ class FacebookOutput(RTMPOutput):
                 'required': False,
                 'default': 'Using Ottes\' Restreamer'
             },
-            'facebookStreamId': {
+            'facebookstreamid': {
                 'type': 'str',
                 'required': True
             },
