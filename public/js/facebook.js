@@ -28,7 +28,7 @@ FBWrapper.changeLogin = (response) => {
             FBWrapper.token.expiresAt = Date.now() + (response.authResponse.expiresIn * 1000)
             FBWrapper.token.dateAccessExpiresAt = response.authResponse.data_access_expiration_time
             outputsHandler.possibleOutputs.facebook = 'Facebook Connect + Reactions';
-        } else if (!initial) {
+        } else {
             location.reload() // reload after logout
         }
     }
