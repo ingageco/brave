@@ -202,14 +202,8 @@ outputsHandler._populateForm = function(output) {
             }));
             break;
         case 'facebook':
-            form.append(formGroup({
-                id: 'output-facebook-connection',
-                label: 'Facebook Connect',
-                name: 'stream_name',
-                type: 'text',
-                value: output.location || '',
-                help: 'You can create one on the <a href="https://us-west-2.console.aws.amazon.com/kinesisvideo/streams">AWS KVS console</a>',
-            }));
+            form.append('<p>this will we facebook connect, something something</p>');
+            form.append('<p></p>');
             break;
     }
 

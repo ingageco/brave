@@ -12,11 +12,11 @@ FBWrapper = {
 FBWrapper.init = () => {
     FB.init({appId: '674923560015547', version: 'v7.0', cookie: true, xfbml: true})
     FB.AppEvents.logPageView()
-    FB.getLoginStatus(response => FBWrapper.changeLogin(response))
+    FB.getLoginStatus(response => FBWrapper.changeLogin(response, true))
     FB.Event.subscribe('auth.statusChange', response => FBWrapper.changeLogin(response));
 }
 
-FBWrapper.changeLogin = (response) => {
+FBWrapper.changeLogin = (response, initial = false) => {
     if (response.status === 'connected') {
         FBWrapper.token.bearer = response.authResponse.accessToken
         FBWrapper.token.userID = response.authResponse.userID
@@ -24,11 +24,11 @@ FBWrapper.changeLogin = (response) => {
         FBWrapper.token.expiresAt = Date.now() + (response.authResponse.expiresIn * 1000)
         FBWrapper.token.dateAccessExpiresAt = response.authResponse.data_access_expiration_time
         outputsHandler.possibleOutputs.facebook = 'Facebook Connect + Reactions';
+
     } else {
-        FBWrapper.token.bearer = null
-        FBWrapper.token.userID = null
-        FBWrapper.token.expiresAt = 0
-        FBWrapper.token.dateAccessExpiresAt = 0
-        delete outputsHandler.possibleOutputs.facebook
+        if (!initial) {
+            // just reload page, if we got a logout event
+            location.reload()
+        }
     }
 }
