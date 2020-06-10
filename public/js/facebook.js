@@ -19,10 +19,12 @@ FBWrapper.init = () => {
 }
 
 FBWrapper.changeLogin = (response) => {
-    // console.log({ response })
+    console.log({ response })
     if (FBWrapper.lastStatus !== response.status) {
+        console.log('...')
         FBWrapper.lastStatus = response.status
         if (response.status === 'connected') {
+            console.log('connected')
             FBWrapper.token.bearer = response.authResponse.accessToken
             FBWrapper.token.userID = response.authResponse.userID
             // expiresIn are seconds, we want expiresAt in ms
@@ -30,7 +32,7 @@ FBWrapper.changeLogin = (response) => {
             FBWrapper.token.dateAccessExpiresAt = response.authResponse.data_access_expiration_time
             outputsHandler.possibleOutputs.facebook = 'Facebook Connect + Reactions';
         } else {
-            console.log('reload caused by socialLogout')
+            console.log('disconnected -> reload')
             location.reload()
         }
     }
