@@ -24,14 +24,15 @@ function onPageLoad() {
         $('#restart-brave-button').click(restartBraveConfirmation)
         $("#top-message").hide();
         updatePage();
-        websocket.setup()
+        websocket.setup();
+
+        $.ajaxSetup({ cache: true });
+        $.getScript('https://connect.facebook.net/en_US/sdk.js', () => FBWrapper.init());
     })
 }
 
 function updatePage() {
-    $.ajax({
-        url: 'api/all'
-    }).then(function(data) {
+    $.ajax({url: 'api/all'}).then(function(data) {
         inputsHandler.items = data.inputs
         overlaysHandler.items = data.overlays
         outputsHandler.items = data.outputs

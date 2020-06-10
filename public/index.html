@@ -9,84 +9,79 @@
         <link rel="stylesheet" href="style.css">
         <link rel="icon" href="data:,">
         <title>Brave</title>
+        <script>
+            $(document).ready(() => {
+                $.ajaxSetup({ cache: true });
+                $.getScript('https://connect.facebook.net/en_US/sdk.js', () => {
+                  FB.init({appId: '674923560015547', version: 'v7.0', cookie: true, xfbml: true});
+                  FB.AppEvents.logPageView();
+
+                  FB.getLoginStatus(response => {
+                      console.log(response);
+                      // TODO: if connected -> show button to start live-stream via fb api! (also after login via button!)
+                  });
+
+                  FB.Event.subscribe('auth.statusChange', response => {
+                      console.log('auth.statusChange', response); // <-- response.status === unknown/connected
+                  });
+                });
+            });
+        </script>
     </head>
     <body>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({appId: '674923560015547', cookie: true, xfbml: true, version: 'v7.0'});
-        FB.AppEvents.logPageView();
-
-        FB.getLoginStatus(function(response) {
-            console.log(response);
-            // TODO: if connected -> show button to start live-stream via fb api!
-            // TODO: if not -> nothing, button to log in/out should be displayed anyway
-        });
-      };
-
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "https://connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-    </script>
     <header>
-
-<nav class="container-fluid">
-  <div class="row justify-content-between">
-    <div class="col-sm-4">
-        <h1>BRAVE</h1>
-        <span class="btn-group">
-          <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-plus"></i> Add
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" id="new-input-button">Input</a>
-            <a class="dropdown-item" href="#" id="new-mixer-button">Mixer</a>
-            <a class="dropdown-item" href="#" id="new-output-button">Output</a>
-            <a class="dropdown-item" href="#" id="new-overlay-button">Overlay</a>
-          </div>
-        </span>
-        <span class="btn-group">
-          <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-cog"></i> Options
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" id="restart-brave-button">Restart Brave</a>
-            <a class="dropdown-item" href="api/config/current.yaml">Download current config</a>
-            <a class="dropdown-item" href="#" id="refresh-page-button">Refresh page</a>
-            <a class="dropdown-item" target="_blank" href="elements_table">Debug view (GStreamer elements)</a>
-            <div class="dropdown-item">
-                <div class="fb-login-button" scope="publish_video,public_profile,pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_posts" data-size="small" data-button-type="continue_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true" data-width=""></div>
+        <nav class="container-fluid">
+          <div class="row justify-content-between">
+            <div class="col-sm-4">
+                <h1>BRAVE</h1>
+                <span class="btn-group">
+                  <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-plus"></i> Add
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" id="new-input-button">Input</a>
+                    <a class="dropdown-item" href="#" id="new-mixer-button">Mixer</a>
+                    <a class="dropdown-item" href="#" id="new-output-button">Output</a>
+                    <a class="dropdown-item" href="#" id="new-overlay-button">Overlay</a>
+                  </div>
+                </span>
+                <span class="btn-group">
+                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog"></i> Options
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" id="restart-brave-button">Restart Brave</a>
+                    <a class="dropdown-item" href="api/config/current.yaml">Download current config</a>
+                    <a class="dropdown-item" href="#" id="refresh-page-button">Refresh page</a>
+                    <a class="dropdown-item" target="_blank" href="elements_table">Debug view (GStreamer elements)</a>
+                    <div class="dropdown-item">
+                        <div class="fb-login-button" scope="publish_video,public_profile,pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_posts" data-size="small" data-button-type="continue_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true" data-width=""></div>
+                    </div>
+                  </div>
+                </span>
             </div>
+            <div class="col-sm-2" style="text-align: center">
+                <span class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-tv"></i>&nbsp;&nbsp; <span id="preview-button-msg">No preview</span>
+                    </button>
+                    <div class="dropdown-menu" id="preview-bar-dropdown"></div>
+                </span>
+                <span id="mute-span"></span>
+            </div>
+            <div class="col-sm-4 align-self-left" id="">
+                rtmp://stream.lost-in-techno.de:1935/live/external.stream?token=token<br>
+                rtmp://restream.ottes.lost-in-techno.de:31316/live/external.stream?token=token
+            </div>
+            <div class="col-sm-2 align-self-right" id="cpu-stats"></div>
           </div>
-        </span>
-    </div>
-    <div class="col-sm-2" style="text-align: center">
-        <span class="btn-group">
-            <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-tv"></i>&nbsp;&nbsp; <span id="preview-button-msg">No preview</span>
-            </button>
-            <div class="dropdown-menu" id="preview-bar-dropdown"></div>
-        </span>
-        <span id="mute-span"></span>
-    </div>
-    <div class="col-sm-4 align-self-left" id="">
-        rtmp://stream.lost-in-techno.de:1935/live/external.stream?token=token<br>
-        rtmp://restream.ottes.lost-in-techno.de:31316/live/external.stream?token=token
-    </div>
-    <div class="col-sm-2 align-self-right" id="cpu-stats"></div>
-  </div>
-</nav>
+        </nav>
     </header>
     <main class="container-fluid">
         <div id="preview-bar"></div>
-
         <div class="container-fluid">
             <div class="row" id="cards"></div>
         </div>
-
         <div style="clear:both"></div>
 
         <!-- Primary Modal (for adding and editing things) -->
@@ -111,7 +106,6 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -125,6 +119,7 @@
         <script src="js/websocket.js"></script>
         <script src="js/webrtc.js"></script>
         <script src="js/preview.js"></script>
+        <script src="js/facebook.js"></script>
     </main>
     </body>
 </html>

@@ -53,22 +53,25 @@ outputsHandler._outputCardBody = (output) => {
     if (output.current_num_peers) {
         details.push('<strong>Number of connections:</strong> ' + output.current_num_peers)
     }
+
     if (output.location) {
         details.push('<strong>Location:</strong> ' + output.location)
-    }
-    else if (output.uri) {
+    } else if (output.uri) {
         details.push('<strong>URI:</strong> <code>' + output.uri + '</code></div>')
-    }
-    else if (output.host && output.port && output.type === 'tcp') {
+    } else if (output.host && output.port && output.type === 'tcp') {
         current_domain = $('<a>').attr('href', document.location.href).prop('hostname');
-        host = current_domain === '127.0.0.1' ? output.host : current_domain
-        // Instead of domain we can use output.host but it may be an internal (private) IP
+        host = current_domain === '127.0.0.1' ? output.host : current_domain // Instead of domain we can use output.host but it may be an internal (private) IP
         details.push('<strong>URI:</strong> <code>tcp://' + host + ':' + output.port + '</code> (Use VLC to watch this)')
         details.push('<strong>Container:</strong> <code>' + output.container + '</code>')
     }
 
-    if (output.hasOwnProperty('width') &&
-        output.hasOwnProperty('height')) details.push('<strong>Output size:</strong> ' + prettyDimensions(output))
+    if (output.hasOwnProperty('facebookStreamId')) {
+        details.push('<strong>FB Live ID</strong> <a href="https://www.facebook.com/live/producer/' + output.facebookStreamId + '" target="_blank">' + output.facebookStreamId + '</a>')
+    }
+
+    if (output.hasOwnProperty('width') && output.hasOwnProperty('height')) {
+        details.push('<strong>Output size:</strong> ' + prettyDimensions(output))
+    }
 
     if (output.audio_bitrate) {
         details.push('<strong>Audio bitrate:</strong> ' + output.audio_bitrate)
@@ -78,12 +81,7 @@ outputsHandler._outputCardBody = (output) => {
         details.push('<strong>Stream name:</strong> ' + output.stream_name)
     }
 
-    if (output.hasOwnProperty('source')) {
-        details.push('<strong>Source:</strong> ' + output.source)
-    }
-    else {
-        details.push('<strong>Source:</strong> None')
-    }
+    details.push('<strong>Source:</strong> ' + output.source || 'None')
 
     if (output.hasOwnProperty('error_message')) details.push('<strong>ERROR:</strong> <span style="color:red">' + output.error_message + '</span>')
 
@@ -120,105 +118,103 @@ outputsHandler._handleNewFormType = function(event) {
 
 outputsHandler._showForm = function(output) {
     outputsHandler.currentForm = $('<form></form>')
-    var label = output && output.hasOwnProperty('id') ? 'Edit output ' + output.id : 'Add output'
+    const label = output && output.hasOwnProperty('id') ? ('Edit output ' + (output.itemname || output.id)) : 'Add output'
     showModal(label, outputsHandler.currentForm, outputsHandler._handleFormSubmit)
     outputsHandler._populateForm(output)
 }
 
 outputsHandler._populateForm = function(output) {
-    var form = outputsHandler.currentForm
+    const form = outputsHandler.currentForm
     form.empty()
-    var isNew = !output.hasOwnProperty('id')
+    const isNew = !output.hasOwnProperty('id')
     if (isNew) {
         form.append(outputsHandler._getOutputsSelect(output))
-    }
-    else {
+    } else {
         form.append('<input type="hidden" name="id" value="' + output.id + '">')
     }
     form.append(getSourceSelect(output, isNew))
-    if (!output.type) {
-    }
-    else if (output.type === 'local') {
-        form.append('<div>(There are no extra settings for local outputs.)</div>');
-    }
-    else if (output.type === 'tcp') {
-        form.append(formGroup({
-            id: 'output-container',
-            label: 'Container',
-            name: 'container',
-            options: {mpeg: 'MPEG', ogg: 'OGG'},
-            value: (output.type || 'mpeg')
-        }))
 
-        form.append(formGroup({
-            id: 'input-audio_bitrate',
-            label: 'Audio bitrate',
-            name: 'audio_bitrate',
-            type: 'number',
-            value: output.audio_bitrate || 320000,
-            help: 'Leave blank for default (320000)',
-            min: 1000,
-            step: 1000,
-            max: 128000*16
-        }))
-
-        form.append(getDimensionsSelect('dimensions', output.width, output.height))
-    }
-    else if (output.type === 'rtmp') {
-        form.append(formGroup({
-            id: 'output-name',
-            label: 'Streams Name',
-            name: 'itemname',
-            type: 'text',
-            value: output.itemname || '',
-            help: 'e.g.: <code>Ottes Twitch</code>'
-        }))
-        form.append(formGroup({
-            id: 'output-uri',
-            label: 'Location (URI)',
-            name: 'uri',
-            type: 'text',
-            value: output.uri || '',
-            // TODO: from config + link to studios etc like:
-            help: 'Twitch: <code>rtmp://live-fra02.twitch.tv/app/{key}</code>(permanent key)<br>' +
-              'YouTube: <code>rtmp://a.rtmp.youtube.com/live2/{key}</code>(new Key everytime)<br>' +
-              'Facebook: <code>rtmps://live-api-s.facebook.com:443/rtmp/{key}</code>(permanent key)<br>' +
-              'Mixcloud: <code>rtmp://rtmp.mixcloud.com/broadcast/{key}</code>(new Key everytime)',
-        }));
-    }
-    else if (output.type === 'file') {
-        form.append(formGroup({
-            id: 'output-location',
-            label: 'Location (filename)',
-            name: 'location',
-            type: 'text',
-            value: output.location || '',
-            help: 'Example: <code>/tmp/foo-{}.mp4</code> ({} => YYYY-MM-DD_HH:MM)',
-        }));
-    }
-    else if (output.type === 'kvs') {
-        form.append(formGroup({
-            id: 'output-stream-name',
-            label: 'Stream name',
-            name: 'stream_name',
-            type: 'text',
-            value: output.location || '',
-            help: 'You can create one on the <a href="https://us-west-2.console.aws.amazon.com/kinesisvideo/streams">AWS KVS console</a>',
-        }));
+    switch (output.type) {
+        case 'local':
+            form.append('<div>(There are no extra settings for local outputs.)</div>');
+            break;
+        case 'tcp':
+            form.append(formGroup({
+                id: 'output-container',
+                label: 'Container',
+                name: 'container',
+                options: {mpeg: 'MPEG', ogg: 'OGG'},
+                value: (output.type || 'mpeg')
+            }))
+            form.append(formGroup({
+                id: 'input-audio_bitrate',
+                label: 'Audio bitrate',
+                name: 'audio_bitrate',
+                type: 'number',
+                value: output.audio_bitrate || 320000,
+                help: 'Leave blank for default (320000)',
+                min: 1000,
+                step: 1000,
+                max: 128000*16
+            }))
+            form.append(getDimensionsSelect('dimensions', output.width, output.height))
+            break;
+        case 'rtmp':
+            form.append(formGroup({
+                id: 'output-name',
+                label: 'Streams Name',
+                name: 'itemname',
+                type: 'text',
+                value: output.itemname || '',
+                help: 'e.g.: <code>Ottes Twitch</code>'
+            }))
+            form.append(formGroup({
+                id: 'output-uri',
+                label: 'Location (URI)',
+                name: 'uri',
+                type: 'text',
+                value: output.uri || '',
+                help:
+                  'Twitch: <code>rtmp://live-fra02.twitch.tv/app/{key}</code> (permanent key)<br>' +
+                  'YouTube: <code>rtmp://a.rtmp.youtube.com/live2/{key}</code> (new Key everytime)<br>' +
+                  'Facebook: <code>rtmps://live-api-s.facebook.com:443/rtmp/{key}</code> (permanent key)<br>' +
+                  'Mixcloud: <code>rtmp://rtmp.mixcloud.com/broadcast/{key}</code> (new Key everytime)',
+            }));
+            break;
+        case 'file':
+            form.append(formGroup({
+                id: 'output-location',
+                label: 'Location (filename)',
+                name: 'location',
+                type: 'text',
+                value: output.location || '',
+                help: 'Example: <code>/tmp/foo-{}.mp4</code> ({} => YYYY-MM-DD_HH:MM)',
+            }));
+            break;
+        case 'kvs':
+            form.append(formGroup({
+                id: 'output-stream-name',
+                label: 'Stream name',
+                name: 'stream_name',
+                type: 'text',
+                value: output.location || '',
+                help: 'You can create one on the <a href="https://us-west-2.console.aws.amazon.com/kinesisvideo/streams">AWS KVS console</a>',
+            }));
+            break;
     }
 
     form.find('select[name="type"]').change(outputsHandler._handleNewFormType);
 }
 
 outputsHandler._getOutputsSelect = function(output) {
-    var options = {
+    const options = {
         'tcp'  : 'TCP (server)',
         'rtmp' : 'RTMP (send to remote server)',
         'image' : 'JPEG image every 1 second',
         'file' : 'File (Write audio/video to a local file)',
         'webrtc' : 'WebRTC for web preview',
         'kvs' : 'AWS Kinesis Video',
-        'local': 'Local (pop-up audio/video on this server, for debugging)',
+        'local': 'Local (pop-up audio/video on this server, for debugging)', // TODO: add facebook when connected!
     }
     return formGroup({
         id: 'output-type',
@@ -235,16 +231,16 @@ outputsHandler._handleNewFormType = function(event) {
 }
 
 outputsHandler._handleFormSubmit = function() {
-    var form = outputsHandler.currentForm
-    var idField = form.find('input[name="id"]')
-    var id = idField.length ? idField.val() : null
-    var output = (id != null) ? outputsHandler.findById(id) : {}
-    var newProps = {}
+    const form = outputsHandler.currentForm
+    const idField = form.find('input[name="id"]')
+    const id = idField.length ? idField.val() : null
+    const output = (id != null) ? outputsHandler.findById(id) : {}
+    let newProps = {}
 
     const fields = ['itemname', 'type', 'uri', 'host', 'port', 'container', 'location',
                     'audio_bitrate', 'dimensions', 'source', 'stream_name']
     fields.forEach(f => {
-        var input = form.find('[name="' + f + '"]')
+        const input = form.find('[name="' + f + '"]')
         if (input && input.val() != null) newProps[f] = input.val()
     })
 
@@ -252,8 +248,7 @@ outputsHandler._handleFormSubmit = function() {
 
     splitDimensionsIntoWidthAndHeight(newProps)
 
-    var type = newProps.type || output.type
-
+    const type = newProps.type || output.type
     if (!type) {
         showMessage('Please select a type')
         return
@@ -280,7 +275,7 @@ outputsHandler._handleFormSubmit = function() {
 
     if (newProps.source === 'none') newProps.source = null
     submitCreateOrEdit('output', output.id, newProps)
-    hideModal();
+    hideModal()
 }
 
 outputsHandler.setState = function(id, state) {
