@@ -29,7 +29,8 @@ FBWrapper.changeLogin = (response, initial = false) => {
     } else {
         if (!initial) {
             // just reload page, if we got a logout event
-            location.reload()
+            console.log('RELOAD')
+            // location.reload()
         }
     }
 }
