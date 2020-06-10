@@ -8,7 +8,7 @@ FBWrapper = {
         isExpired: () => Date.now() > FBWrapper.token.expiresAt,
         isDataAccessExpired: () => Date.now() > FBWrapper.token.isDataAccessExpired
     },
-    possibleFbTargets: []
+    possibleTargets: []
 }
 
 FBWrapper.init = () => {
@@ -39,10 +39,27 @@ FBWrapper.changeLogin = (response) => {
 }
 
 FBWrapper.fetchPossibleFacebookTargets = () => {
-    FB.api('/me/accounts', 'get', response => {
-        console.log(response)
-        // pages + myself
-
-        // TODO: groups?!
-    });
+    // TODO: groups to post to
+    FBWrapper.possibleTargets = []
+    FB.api('/me', 'get', response => {
+        FBWrapper.possibleTargets.push({
+            token: FBWrapper.token.token.bearer,
+            id: response.id,
+            name: response.name,
+            type: 'private'
+        })
+        FB.api('/me/accounts', 'get', response => {
+            if (response.data && Array.isArray(response.data)) {
+                const items = response.data.filter(item => item.tasks.includes("CREATE_CONTENT"))
+                for (const item of items) {
+                    FBWrapper.possibleTargets.push({
+                        token: item.access_token,
+                        id: item.id,
+                        name: item.name,
+                        type: 'page'
+                    })
+                }
+            }
+        });
+    })
 }

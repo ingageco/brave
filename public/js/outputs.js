@@ -202,8 +202,31 @@ outputsHandler._populateForm = function(output) {
             }));
             break;
         case 'facebook':
-            form.append('<div class="form-group"><button type="button" class="btn btn-info">Get Possible Targets</button></div>');
-            // form.append('<p></p>');
+            const options = {}
+            for (const target of FBWrapper.possibleTargets) {
+                options[target.id] = `(${target.type}) ${target.name}`
+            }
+            form.append(formGroup({
+                id: 'output-facebook',
+                label: 'Ziel',
+                name: 'facebooktarget',
+                options,
+                value: output.facebooktarget
+            }))
+            form.append(formGroup({
+                id: 'output-facebook-title',
+                label: 'Stream name',
+                name: 'facebooktitle',
+                type: 'text',
+                value: output.facebooktitle || ''
+            }));
+            form.append(formGroup({
+                id: 'output-facebook-description',
+                label: 'Stream Description',
+                name: 'facebookdescription',
+                type: 'text',
+                value: output.facebookdescription || ''
+            }));
             break;
     }
 
