@@ -201,6 +201,16 @@ outputsHandler._populateForm = function(output) {
                 help: 'You can create one on the <a href="https://us-west-2.console.aws.amazon.com/kinesisvideo/streams">AWS KVS console</a>',
             }));
             break;
+        case 'facebook':
+            form.append(formGroup({
+                id: 'output-facebook-connection',
+                label: 'Facebook Connect',
+                name: 'stream_name',
+                type: 'text',
+                value: output.location || '',
+                help: 'You can create one on the <a href="https://us-west-2.console.aws.amazon.com/kinesisvideo/streams">AWS KVS console</a>',
+            }));
+            break;
     }
 
     form.find('select[name="type"]').change(outputsHandler._handleNewFormType);

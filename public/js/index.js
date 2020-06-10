@@ -196,13 +196,11 @@ function formGroup(details) {
         if (details.value) input.attr('checked', 'checked')
         if (e.value) input.checked = true
         e.append(input, ' ', label)
-    }
-    else if (details.options) {
+    } else if (details.options) {
         e.append(label)
         var s = getSelect(details.name, details.value, details.initialOption, details.options, details.alwaysShowUnselectedOption)
         e.append(s)
-    }
-    else {
+    }  else {
         e.append(label)
         var input = $(document.createElement('input'))
         input.addClass('form-control form-control-sm')
