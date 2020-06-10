@@ -15,10 +15,11 @@ FBWrapper.init = () => {
     FB.AppEvents.logPageView()
     FB.getLoginStatus(() => {}) // just call it, event is called anyway then
     FB.Event.subscribe('auth.statusChange', response => FBWrapper.changeLogin(response));
+    FB.Event.subscribe('auth.logout', response => FBWrapper.changeLogin(response));
 }
 
 FBWrapper.changeLogin = (response) => {
-    console.log({ response })
+    // console.log({ response })
     if (FBWrapper.lastStatus !== response.status) {
         FBWrapper.lastStatus = response.status
         if (response.status === 'connected') {
@@ -29,7 +30,8 @@ FBWrapper.changeLogin = (response) => {
             FBWrapper.token.dateAccessExpiresAt = response.authResponse.data_access_expiration_time
             outputsHandler.possibleOutputs.facebook = 'Facebook Connect + Reactions';
         } else {
-            location.reload() // reload after logout
+            console.log('reload caused by socialLogout')
+            location.reload()
         }
     }
 }
