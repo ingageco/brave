@@ -18,9 +18,6 @@ class RTMPOutput(Output):
                 'type': 'str',
                 'default': 'rmtp://'
             },
-            'token': {
-                'type': 'str'
-            },
             'width': {
                 'type': 'int',
                 'default': config.default_mixer_width()

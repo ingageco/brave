@@ -40,6 +40,7 @@ FBWrapper.changeLogin = (response) => {
 
 FBWrapper.fetchPossibleFacebookTargets = () => {
     // TODO: groups to post to
+    // TODO: get events to post to
     FBWrapper.possibleTargets = []
     FB.api('/me', 'get', response => {
         FBWrapper.possibleTargets.push({
@@ -61,5 +62,17 @@ FBWrapper.fetchPossibleFacebookTargets = () => {
                 }
             }
         });
+    })
+}
+
+FBWrapper.getFacebookStream = (targetId, title, description, callback) => {
+    const data = {
+        title: title.substr(0, 254),
+        description,
+        status: 'LIVE_NOW'
+    }
+    FB.api(`/${targetId}/live_videos`, 'post', data, response => {
+        console.log(response)
+        callback(response.error, response.data ? response.data.stream_url : null)
     })
 }

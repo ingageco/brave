@@ -180,6 +180,7 @@ outputsHandler._populateForm = function(output) {
                   'Facebook: <code>rtmps://live-api-s.facebook.com:443/rtmp/{key}</code> (permanent key)<br>' +
                   'Mixcloud: <code>rtmp://rtmp.mixcloud.com/broadcast/{key}</code> (new Key everytime)',
             }));
+            form.append(getDimensionsSelect('dimensions', output.width, output.height))
             break;
         case 'file':
             form.append(formGroup({
@@ -190,6 +191,7 @@ outputsHandler._populateForm = function(output) {
                 value: output.location || '',
                 help: 'Example: <code>/tmp/foo-{}.mp4</code> ({} => YYYY-MM-DD_HH:MM)',
             }));
+            form.append(getDimensionsSelect('dimensions', output.width, output.height))
             break;
         case 'kvs':
             form.append(formGroup({
@@ -211,22 +213,24 @@ outputsHandler._populateForm = function(output) {
                 label: 'Ziel',
                 name: 'facebooktarget',
                 options,
-                value: output.facebooktarget
+                value: output.facebooktarget,
+                required: true
             }))
             form.append(formGroup({
                 id: 'output-facebook-title',
-                label: 'Stream name',
+                label: 'Stream Title',
                 name: 'facebooktitle',
                 type: 'text',
-                value: output.facebooktitle || ''
+                value: output.facebooktitle || 'Live'
             }));
             form.append(formGroup({
                 id: 'output-facebook-description',
                 label: 'Stream Description',
                 name: 'facebookdescription',
                 type: 'text',
-                value: output.facebookdescription || ''
+                value: output.facebookdescription || ' - powered by Ottes - '
             }));
+            form.append(getDimensionsSelect('dimensions', output.width, output.height))
             break;
     }
 
@@ -266,7 +270,8 @@ outputsHandler._handleFormSubmit = function() {
     let newProps = {}
 
     const fields = ['itemname', 'type', 'uri', 'host', 'port', 'container', 'location',
-                    'audio_bitrate', 'dimensions', 'source', 'stream_name']
+                    'audio_bitrate', 'dimensions', 'source', 'stream_name',
+                    'facebooktoken', 'facebooktarget', 'facebooktitle', 'facebookdescription']
     fields.forEach(f => {
         const input = form.find('[name="' + f + '"]')
         if (input && input.val() != null) newProps[f] = input.val()
@@ -282,13 +287,37 @@ outputsHandler._handleFormSubmit = function() {
         return
     }
 
-    const VALID_TYPES = ['local', 'tcp', 'image', 'file', 'webrtc', 'kvs', 'rtmp']
+    const VALID_TYPES = ['local', 'tcp', 'image', 'file', 'webrtc', 'kvs', 'rtmp', 'facebook']
     if (VALID_TYPES.indexOf(type) === -1) {
         showMessage('Invalid type ' + type)
         return
     }
 
-    if (type === 'rtmp') {
+    if (type === 'facebook' && (!newProps.facebooktarget)) {
+        showMessage('Facebook Target is forced!')
+        return
+    }
+
+    if (type === 'facebook' && !newProps.uri) {
+        showMessage('Will fetch Stream URL from Facebook and continue, please wait', 'info')
+        FBWrapper.getFacebookStream(newProps.facebooktarget, newProps.facebooktitle, newProps.facebookdescription, (err, uri) => {
+            if (err) {
+                showMessage(err);
+            } else {
+                form.append(formGroup({
+                    id: 'output-facebook-rtmp',
+                    label: 'Facebook RTMP',
+                    name: 'uri',
+                    type: 'text',
+                    value: uri
+                }));
+                showMessage('RTMP uri set, please submit again', 'info')
+            }
+        })
+        return
+    }
+
+    if (type === 'rtmp' || type === 'facebook') { // or other custom api stuff with rtmp uri as target?
         good_uri_regexp = '^rtmp(s?)://'
         if (!newProps.uri || !newProps.uri.match(good_uri_regexp)) {
             showMessage('uri must start with ' + good_uri_regexp)

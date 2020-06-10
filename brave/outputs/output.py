@@ -93,9 +93,9 @@ class Output(InputOutputOverlay):
         super().delete()
 
     def create_caps_string(self, format='RGBx'):
-        '''
+        """
         Returns the preferred caps (a string defining things such as width, height and framerate)
-        '''
+        """
 
         caps = 'video/x-raw,format=%s,pixel-aspect-ratio=1/1' % format
 
