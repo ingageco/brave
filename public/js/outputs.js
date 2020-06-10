@@ -1,12 +1,9 @@
-//
-// This web interface has been quickly thrown together. It's not production code.
-//
-
 outputsHandler = {}
 
 outputsHandler.findById = (id) => {
     return outputsHandler.items.find(i => i.id == id)
 }
+
 outputsHandler.findByDetails = (details) => {
     return outputsHandler.items.find(i => {
         if (details.type && details.type !== i.type) return false
@@ -134,6 +131,15 @@ outputsHandler._populateForm = function(output) {
     }
     form.append(getSourceSelect(output, isNew))
 
+    const nameInput = formGroup({
+        id: 'output-name',
+        label: 'Streams Name',
+        name: 'itemname',
+        type: 'text',
+        value: output.itemname || '',
+        help: 'e.g.: <code>Ottes Twitch</code>'
+    })
+
     switch (output.type) {
         case 'local':
             form.append('<div>(There are no extra settings for local outputs.)</div>');
@@ -160,14 +166,7 @@ outputsHandler._populateForm = function(output) {
             form.append(getDimensionsSelect('dimensions', output.width, output.height))
             break;
         case 'rtmp':
-            form.append(formGroup({
-                id: 'output-name',
-                label: 'Streams Name',
-                name: 'itemname',
-                type: 'text',
-                value: output.itemname || '',
-                help: 'e.g.: <code>Ottes Twitch</code>'
-            }))
+            form.append(nameInput)
             form.append(formGroup({
                 id: 'output-uri',
                 label: 'Location (URI)',
@@ -205,15 +204,20 @@ outputsHandler._populateForm = function(output) {
             break;
         case 'facebook':
             const options = {}
+            let firstFbTarget = null
             for (const target of FBWrapper.possibleTargets) {
-                if (target && target.id) options[target.id] = `(${target.type}) ${target.name}`
+                if (target && target.id) {
+                    firstFbTarget = target.id
+                    options[target.id] = `(${target.type}) ${target.name}`
+                }
             }
+            form.append(nameInput)
             form.append(formGroup({
-                id: 'output-facebook',
-                label: 'Ziel',
+                id: 'output-facebook-target',
+                label: 'Facebook Ziel',
                 name: 'facebooktarget',
                 options,
-                value: output.facebooktarget,
+                value: output.facebooktarget || firstFbTarget,
                 required: true
             }))
             form.append(formGroup({
@@ -299,8 +303,8 @@ outputsHandler._handleFormSubmit = function() {
     }
 
     if (type === 'facebook' && !newProps.uri) {
-        showMessage('Will fetch Stream URL from Facebook and continue, please wait', 'info')
-        FBWrapper.getFacebookStream(newProps.facebooktarget, newProps.facebooktitle, newProps.facebookdescription, (err, uri) => {
+        showMessage('Will fetch Stream URL/ID from Facebook and continue, please wait', 'info')
+        FBWrapper.getFacebookStream(newProps.facebooktarget, newProps.facebooktitle, newProps.facebookdescription, (err, streamId, uri) => {
             if (err) {
                 showMessage(err);
             } else {
@@ -311,6 +315,7 @@ outputsHandler._handleFormSubmit = function() {
                     type: 'text',
                     value: uri
                 }));
+                form.append('<input type="hidden" name="facebookStreamId" value="' + streamId + '">')
                 showMessage('RTMP uri set, please submit again', 'info')
             }
         })

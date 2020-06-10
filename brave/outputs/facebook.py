@@ -5,8 +5,6 @@ import brave.config as config
 class FacebookOutput(RTMPOutput):
     """
     For sending an output to Facebook Live RTMP, getting the url via API
-    need the accesstoken from the frontend or make the call from the frontend
-    and send url/token?
     """
 
     def permitted_props(self):
@@ -25,6 +23,10 @@ class FacebookOutput(RTMPOutput):
                 'type': 'str',
                 'required': False,
                 'default': 'Using Ottes\' Restreamer'
+            },
+            'facebookStreamId': {
+                'type': 'str',
+                'required': True
             },
             'width': {
                 'type': 'int',
