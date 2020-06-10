@@ -202,8 +202,8 @@ outputsHandler._populateForm = function(output) {
             }));
             break;
         case 'facebook':
-            form.append('<p>this will we facebook connect, something something</p>');
-            form.append('<p></p>');
+            form.append('<div class="form-group"><button type="button" class="btn btn-info">Get Possible Targets</button></div>');
+            // form.append('<p></p>');
             break;
     }
 

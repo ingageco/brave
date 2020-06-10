@@ -7,7 +7,8 @@ FBWrapper = {
         dateAccessExpiresAt: 0,
         isExpired: () => Date.now() > FBWrapper.token.expiresAt,
         isDataAccessExpired: () => Date.now() > FBWrapper.token.isDataAccessExpired
-    }
+    },
+    possibleFbTargets: []
 }
 
 FBWrapper.init = () => {
@@ -20,22 +21,28 @@ FBWrapper.init = () => {
 }
 
 FBWrapper.changeLogin = (response) => {
-    console.log({ response })
     if (FBWrapper.lastStatus !== response.status) {
-        console.log('...')
         FBWrapper.lastStatus = response.status
         if (response.status === 'connected') {
-            console.log('connected')
-            // problem, evtl accessToken-copy helps
             FBWrapper.token.bearer = JSON.parse(JSON.stringify(response.authResponse.accessToken))
             FBWrapper.token.userID = response.authResponse.userID
             // expiresIn are seconds, we want expiresAt in ms
             FBWrapper.token.expiresAt = Date.now() + (response.authResponse.expiresIn * 1000)
             FBWrapper.token.dateAccessExpiresAt = response.authResponse.data_access_expiration_time
             outputsHandler.possibleOutputs.facebook = 'Facebook Connect + Reactions';
+            FBWrapper.fetchPossibleFacebookTargets()
         } else {
-            console.log('disconnected -> reload')
+            // TODO: not called?!
             location.reload()
         }
     }
+}
+
+FBWrapper.fetchPossibleFacebookTargets = () => {
+    FB.api('/me/accounts', 'get', response => {
+        console.log(response)
+        // pages + myself
+
+        // TODO: groups?!
+    });
 }
