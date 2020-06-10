@@ -8,25 +8,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/css/bootstrap-slider.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
         <link rel="icon" href="data:,">
-        <title>Brave</title>
-        <script>
-            $(document).ready(() => {
-                $.ajaxSetup({ cache: true });
-                $.getScript('https://connect.facebook.net/en_US/sdk.js', () => {
-                  FB.init({appId: '674923560015547', version: 'v7.0', cookie: true, xfbml: true});
-                  FB.AppEvents.logPageView();
-
-                  FB.getLoginStatus(response => {
-                      console.log(response);
-                      // TODO: if connected -> show button to start live-stream via fb api! (also after login via button!)
-                  });
-
-                  FB.Event.subscribe('auth.statusChange', response => {
-                      console.log('auth.statusChange', response); // <-- response.status === unknown/connected
-                  });
-                });
-            });
-        </script>
+        <title>Ottes - Brave - Videostreamhub</title>
     </head>
     <body>
     <header>
@@ -54,7 +36,13 @@
                     <a class="dropdown-item" href="api/config/current.yaml">Download current config</a>
                     <a class="dropdown-item" href="#" id="refresh-page-button">Refresh page</a>
                     <a class="dropdown-item" target="_blank" href="elements_table">Debug view (GStreamer elements)</a>
-                    <span class="dropdown-item"> - To enable (auto) social outputs (with comments) - </span>
+                  </div>
+                </span>
+                <span class="btn-group">
+                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog"></i> Social
+                  </button>
+                  <div class="dropdown-menu">
                     <div class="dropdown-item">
                         <div class="fb-login-button" data-size="small" data-button-type="continue_with" data-layout="rounded"
                              scope="publish_video,public_profile,pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_posts"
