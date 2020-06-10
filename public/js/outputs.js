@@ -315,8 +315,14 @@ outputsHandler._handleFormSubmit = function() {
                     type: 'text',
                     value: uri
                 }));
-                form.append('<input type="hidden" name="facebookStreamId" value="' + streamId + '">')
-                showMessage('RTMP uri set, please submit again', 'info')
+                form.append(formGroup({
+                    id: 'output-facebook-stream-id',
+                    label: 'Facebook Stream ID',
+                    name: 'facebookStreamId',
+                    type: 'text',
+                    value: streamId
+                }));
+                showMessage('RTMP uri/id set, please submit again', 'info')
             }
         })
         return
