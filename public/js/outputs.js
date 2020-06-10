@@ -204,7 +204,7 @@ outputsHandler._populateForm = function(output) {
         case 'facebook':
             const options = {}
             for (const target of FBWrapper.possibleTargets) {
-                options[target.id] = `(${target.type}) ${target.name}`
+                if (target && target.id) options[target.id] = `(${target.type}) ${target.name}`
             }
             form.append(formGroup({
                 id: 'output-facebook',
