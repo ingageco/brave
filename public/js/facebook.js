@@ -18,7 +18,7 @@ FBWrapper.init = () => {
 }
 
 FBWrapper.changeLogin = (response) => {
-    console.log({response, initial})
+    console.log({ response })
     if (FBWrapper.lastStatus !== response.status) {
         FBWrapper.lastStatus = response.status
         if (response.status === 'connected') {
