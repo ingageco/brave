@@ -43,7 +43,7 @@ FBWrapper.fetchPossibleFacebookTargets = () => {
     FBWrapper.possibleTargets = []
     FB.api('/me', 'get', response => {
         FBWrapper.possibleTargets.push({
-            token: FBWrapper.token.token.bearer,
+            token: FBWrapper.token.bearer,
             id: response.id,
             name: response.name,
             type: 'private'
