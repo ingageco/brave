@@ -216,22 +216,23 @@ outputsHandler._populateForm = function(output) {
     form.find('select[name="type"]').change(outputsHandler._handleNewFormType);
 }
 
+outputsHandler.possibleOutputs = {
+    'tcp': 'TCP (server)',
+    'rtmp': 'RTMP (send to remote server)',
+    'image': 'JPEG image every 1 second',
+    'file': 'File (Write audio/video to a local file)',
+    'webrtc': 'WebRTC for web preview',
+    'kvs': 'AWS Kinesis Video',
+    'local': 'Local (pop-up audio/video on this server, for debugging)',
+}
+
 outputsHandler._getOutputsSelect = function(output) {
-    const options = {
-        'tcp'  : 'TCP (server)',
-        'rtmp' : 'RTMP (send to remote server)',
-        'image' : 'JPEG image every 1 second',
-        'file' : 'File (Write audio/video to a local file)',
-        'webrtc' : 'WebRTC for web preview',
-        'kvs' : 'AWS Kinesis Video',
-        'local': 'Local (pop-up audio/video on this server, for debugging)', // TODO: add facebook when connected!
-    }
     return formGroup({
         id: 'output-type',
         label: 'Type',
         name: 'type',
         initialOption: 'Select a type...',
-        options,
+        options: outputsHandler.possibleOutputs,
         value: output.type
     })
 }

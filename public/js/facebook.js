@@ -23,12 +23,12 @@ FBWrapper.changeLogin = (response) => {
         // expiresIn are seconds, we want expiresAt in ms
         FBWrapper.token.expiresAt = Date.now() + (response.authResponse.expiresIn * 1000)
         FBWrapper.token.dateAccessExpiresAt = response.authResponse.data_access_expiration_time
-
+        outputsHandler.possibleOutputs.facebook = 'Facebook Connect + Reactions';
     } else {
         FBWrapper.token.bearer = null
         FBWrapper.token.userID = null
         FBWrapper.token.expiresAt = 0
         FBWrapper.token.dateAccessExpiresAt = 0
-
+        delete outputsHandler.possibleOutputs.facebook
     }
 }
