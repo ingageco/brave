@@ -27,12 +27,12 @@ outputsHandler.showFormToEdit = function(overlay) {
 }
 
 outputsHandler._drawCards = () => {
-    $('#cards').append(outputsHandler.items.map(outputsHandler._asCard))
+    $('#outputs').append(outputsHandler.items.map(outputsHandler._asCard))
 }
 
 outputsHandler._asCard = (output) => {
     return components.card({
-        title: output.itemname || ('Output ' + output.id + ' (' + prettyType(output.type) + ')')    ,
+        title: (output.itemname || ('Output ' + output.id)) + ' (' + prettyType(output.type) + ')'),
         options: outputsHandler._optionButtonsForOutput(output),
         body: outputsHandler._outputCardBody(output),
         state: components.stateBox(output, outputsHandler.setState),
@@ -41,7 +41,17 @@ outputsHandler._asCard = (output) => {
 
 outputsHandler._optionButtonsForOutput = (output) => {
     const editButton = components.editButton().click(() => { outputsHandler.showFormToEdit(output); return false })
-    const deleteButton = components.deleteButton().click(() => { outputsHandler.delete(output); return false })
+    let deleteButton
+    if (output.hasOwnProperty('facebookstreamid')) {
+        deleteButton = components.deleteButton().click(() => {
+            // TODO
+            alert('TODO: POST to livestreamId (with token used for this stream, save it to output? what about updates? token object?)');
+            // outputsHandler.delete(output);
+            // return false
+        })
+    } else {
+        deleteButton = components.deleteButton().click(() => { outputsHandler.delete(output); return false })
+    }
     return [editButton, deleteButton]
 }
 
@@ -64,6 +74,8 @@ outputsHandler._outputCardBody = (output) => {
 
     if (output.hasOwnProperty('facebookstreamid')) {
         details.push('<strong>FB Live ID</strong> <a href="https://www.facebook.com/live/producer/' + output.facebookstreamid + '" target="_blank">' + output.facebookStreamId + '</a>')
+        details.push('(DeleteBtn = FB Stream-Stop and delete afterwards)')
+
     }
 
     if (output.hasOwnProperty('width') && output.hasOwnProperty('height')) {

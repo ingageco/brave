@@ -28,7 +28,7 @@ inputsHandler.seek = function(input) {
 }
 
 inputsHandler._drawCards = () => {
-    $('#cards').append(inputsHandler.items.map(inputsHandler._asCard))
+    $('#inputs-mixers').append(inputsHandler.items.map(inputsHandler._asCard))
 }
 
 inputsHandler._asCard = (input) => {

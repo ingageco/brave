@@ -34,7 +34,7 @@ mixersHandler.overlay = (mixer, source) => {
 }
 
 mixersHandler._drawCards = () => {
-    $('#cards').append(mixersHandler.items.map(mixersHandler._asCard))
+    $('#inputs-mixers').append(mixersHandler.items.map(mixersHandler._asCard))
 }
 
 mixersHandler._asCard = (mixer) => {
