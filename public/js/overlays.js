@@ -27,7 +27,7 @@ overlaysHandler._drawCards = () => {
 
 overlaysHandler._asCard = (overlay) => {
     return components.card({
-        title: 'Overlay ' + overlay.id + ' (' + prettyType(overlay.type) + ')',
+        title: 'Overlay ' + overlay.id + prettyType(overlay.type),
         options: overlaysHandler._optionButtonsForOverlay(overlay),
         body: overlaysHandler._overlayCardBody(overlay),
         mixOptions: overlaysHandler._getMixOptions(overlay)

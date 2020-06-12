@@ -33,7 +33,7 @@ inputsHandler._drawCards = () => {
 
 inputsHandler._asCard = (input) => {
     return components.card({
-        title: input.itemname || (prettyUid(input.uid) + ' (' + prettyType(input.type) + ')'),
+        title: input.itemname || (prettyUid(input.uid) + prettyType(input.type)),
         options: inputsHandler._optionButtonsForInput(input),
         body: inputsHandler._inputCardBody(input),
         state: components.stateBox(input, inputsHandler.setState),
