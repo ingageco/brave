@@ -275,8 +275,8 @@ function restartBrave(config) {
 }
 
 function saveCurrentConfig() {
-    $.ajax(
-        {type: 'POST'},
+    $.ajax({
+        type: 'POST',
         url: 'api/config/save',
         dataType: "json",
         contentType: "application/json",
@@ -286,7 +286,7 @@ function saveCurrentConfig() {
         error: function() {
             showMessage('Sorry, an error occurred', 'danger')
         }
-    )
+    });
 }
 
 function ucFirst(string) {
