@@ -184,6 +184,9 @@ function prettyType(type) {
     type = type.replace(/_/g, ' ')
     switch (type) {
         case 'facebook': return ' <i class="fab fa-facebook"></i>'
+        case 'youtube': return ' <i class="fab fa-youtube"></i>'
+        case 'twitch': return ' <i class="fab fa-twitch"></i>'
+        case 'mixcloud': return ' <i class="fab fa-mixcloud"></i>'
     }
     return ' (' + type + ')'
 }
