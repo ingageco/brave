@@ -287,7 +287,8 @@ outputsHandler._handleFormSubmit = function() {
 
     const fields = ['itemname', 'type', 'uri', 'host', 'port', 'container', 'location',
                     'audio_bitrate', 'dimensions', 'source', 'stream_name',
-                    'facebooktoken', 'facebooktarget', 'facebooktitle', 'facebookdescription']
+                    'facebooktoken', 'facebooktarget', 'facebooktitle', 'facebookdescription',
+                    'facebookstreamid']
     fields.forEach(f => {
         const input = form.find('[name="' + f + '"]')
         if (input && input.val() != null) newProps[f] = input.val()

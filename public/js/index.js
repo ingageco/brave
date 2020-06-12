@@ -180,9 +180,11 @@ function prettyDimensions(obj) {
     return str
 }
 
-function prettyType(i) {
-    i = i.replace(/_/g, ' ')
-    return i
+function prettyType(type) {
+    type = type.replace(/_/g, ' ')
+
+    // if (icon) return `<i data-toggle="popover" data-content="${type}" class="fas fa-${icon}"></i>`
+    return type
 }
 
 // Creates part of a form, which Bootstrap calls a 'form-group'
