@@ -183,7 +183,7 @@ function prettyDimensions(obj) {
 function prettyType(type) {
     type = type.replace(/_/g, ' ')
     switch (type) {
-        case 'facebook': return '<i class="fab fa-facebook"></i>'
+        case 'facebook': return ' <i class="fab fa-facebook"></i>'
     }
     return ' (' + type + ')'
 }
