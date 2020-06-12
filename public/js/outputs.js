@@ -32,7 +32,7 @@ outputsHandler._drawCards = () => {
 
 outputsHandler._asCard = (output) => {
     return components.card({
-        title: (output.itemname || ('Output ' + output.id)) + ' (' + prettyType(output.type) + ')'),
+        title: (output.itemname || ('Output ' + output.id)) + ' (' + prettyType(output.type) + ')')),
         options: outputsHandler._optionButtonsForOutput(output),
         body: outputsHandler._outputCardBody(output),
         state: components.stateBox(output, outputsHandler.setState),
