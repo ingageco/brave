@@ -72,6 +72,7 @@ FBWrapper.getFacebookStream = (targetId, title, description, callback) => {
         description,
         status: 'LIVE_NOW'
     }
+
     FB.api(`/${targetId}/live_videos`, 'post', data, response => {
         callback(response.error, response.id, response.stream_url)
     })
