@@ -79,7 +79,7 @@ components.card = (block) => {
     setToggleMsg(toggleSwitch)
     card.append($('<div />').addClass('block-card-toggle').append(toggleSwitch))
     card.append(cardBody)
-    return $('<div class="block-card-outer col-xl-3 col-lg-4 col-md-6 col-12"></div>').append(card)
+    return $('<div class="block-card-outer col-2"></div>').append(card)
 }
 
 components.stateBox = (item, onClick) => {

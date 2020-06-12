@@ -46,6 +46,7 @@ setInterval(updatePage, 5000)
 function drawAllItems() {
     $('#inputs-mixers').empty()
     $('#outputs').empty()
+    $('#overlays').empty()
     if (noItems()) return showNoItemsMessage()
     inputsHandler.draw()
     overlaysHandler.draw()

@@ -22,7 +22,7 @@ overlaysHandler.showFormToEdit = function(overlay) {
 }
 
 overlaysHandler._drawCards = () => {
-    $('#cards').append(overlaysHandler.items.map(overlaysHandler._asCard))
+    $('#overlays').append(overlaysHandler.items.map(overlaysHandler._asCard))
 }
 
 overlaysHandler._asCard = (overlay) => {
