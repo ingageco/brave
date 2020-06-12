@@ -49,20 +49,20 @@ FBWrapper.fetchPossibleFacebookTargets = () => {
             name: response.name,
             type: 'private'
         })
-// TODO: does not work atm
-//        FB.api('/me/accounts', 'get', response => {
-//            if (response.data && Array.isArray(response.data)) {
-//                const items = response.data.filter(item => item.tasks.includes("CREATE_CONTENT"))
-//                for (const item of items) {
-//                    FBWrapper.possibleTargets.push({
-//                        token: item.access_token,
-//                        id: item.id,
-//                        name: item.name,
-//                        type: 'page'
-//                    })
-//                }
-//            }
-//        });
+
+        FB.api('/me/accounts', 'get', response => {
+            if (response.data && Array.isArray(response.data)) {
+                const items = response.data.filter(item => item.tasks.includes("CREATE_CONTENT"))
+                for (const item of items) {
+                    FBWrapper.possibleTargets.push({
+                        token: item.access_token,
+                        id: item.id,
+                        name: item.name,
+                        type: 'page'
+                    })
+                }
+            }
+        });
     })
 }
 
