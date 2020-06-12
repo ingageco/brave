@@ -31,7 +31,7 @@ overlaysHandler._asCard = (overlay) => {
         options: overlaysHandler._optionButtonsForOverlay(overlay),
         body: overlaysHandler._overlayCardBody(overlay),
         mixOptions: overlaysHandler._getMixOptions(overlay)
-    })
+    }, [3, 4, 6, 12])
 }
 
 overlaysHandler._optionButtonsForOverlay  = (overlay) => {

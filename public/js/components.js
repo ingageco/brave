@@ -53,7 +53,7 @@ components.stateIcon = (state, currentState) => {
 }
 
 components.openCards = {}
-components.card = (block) => {
+components.card = (block, sizes = [4, 4, 6, 12]) => {
     var card = $('<div class="block-card"></div>')
     var header = $('<div class="block-card-head"></div>')
     if (block.title) header.append(block.title)
@@ -79,7 +79,7 @@ components.card = (block) => {
     setToggleMsg(toggleSwitch)
     card.append($('<div />').addClass('block-card-toggle').append(toggleSwitch))
     card.append(cardBody)
-    return $('<div class="block-card-outer col-xl-3 col-lg-4 col-md-6 col-12"></div>').append(card)  // TODO responsive column classes, find values!
+    return $(`<div class="block-card-outer col-xl-${sizes[0]} col-lg-${sizes[1]} col-md-${sizes[2]} col-${sizes[3]}"></div>`).append(card)  // TODO responsive column classes, find values!
 }
 
 components.stateBox = (item, onClick) => {
