@@ -41,17 +41,18 @@ outputsHandler._asCard = (output) => {
 
 outputsHandler._optionButtonsForOutput = (output) => {
     const editButton = components.editButton().click(() => { outputsHandler.showFormToEdit(output); return false })
-    let deleteButton
-    if (output.hasOwnProperty('facebookstreamid')) {
-        deleteButton = components.deleteButton().click(() => {
-            // TODO
-            alert('TODO: POST to livestreamId (with token used for this stream, save it to output? what about updates? token object?)');
-            // outputsHandler.delete(output);
-            // return false
-        })
-    } else {
-        deleteButton = components.deleteButton().click(() => { outputsHandler.delete(output); return false })
-    }
+    const deleteButton = components.deleteButton().click(() => { outputsHandler.delete(output); return false })
+// maybe live is stopped automatically when stream stops?
+//    if (output.hasOwnProperty('facebookstreamid')) {
+//        deleteButton = components.deleteButton().click(() => {
+//            // TODO
+//            alert('TODO: POST to livestreamId (with token used for this stream, save it to output? what about updates? token object?)');
+//            // outputsHandler.delete(output);
+//            // return false
+//        })
+//    } else {
+//        deleteButton = components.deleteButton().click(() => { outputsHandler.delete(output); return false })
+//    }
     return [editButton, deleteButton]
 }
 
@@ -73,9 +74,8 @@ outputsHandler._outputCardBody = (output) => {
     }
 
     if (output.hasOwnProperty('facebookstreamid')) {
-        details.push('<strong>FB Live ID</strong> <a href="https://www.facebook.com/live/producer/' + output.facebookstreamid + '" target="_blank">' + output.facebookStreamId + '</a>')
-        details.push('(DeleteBtn = FB Stream-Stop and delete afterwards)')
-
+        details.push('<strong>FB Live ID</strong> <a href="https://www.facebook.com/live/producer/' + output.facebookstreamid + '" target="_blank">' + output.facebookstreamid + '</a>')
+        // details.push('(DeleteBtn = FB Stream-Stop and delete afterwards)')
     }
 
     if (output.hasOwnProperty('width') && output.hasOwnProperty('height')) {
