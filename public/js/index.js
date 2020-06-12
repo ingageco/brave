@@ -278,6 +278,7 @@ function saveCurrentConfig() {
     $.ajax({
         type: 'POST',
         url: 'api/config/save',
+        data: "{}",
         dataType: "json",
         contentType: "application/json",
         success: function() {
