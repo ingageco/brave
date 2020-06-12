@@ -79,7 +79,7 @@ components.card = (block) => {
     setToggleMsg(toggleSwitch)
     card.append($('<div />').addClass('block-card-toggle').append(toggleSwitch))
     card.append(cardBody)
-    return $('<div class="block-card-outer col-2"></div>').append(card)
+    return $('<div class="block-card-outer col-4"></div>').append(card)  // TODO responsive column classes, find values!
 }
 
 components.stateBox = (item, onClick) => {
