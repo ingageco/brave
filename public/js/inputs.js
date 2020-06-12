@@ -38,7 +38,7 @@ inputsHandler._asCard = (input) => {
         body: inputsHandler._inputCardBody(input),
         state: components.stateBox(input, inputsHandler.setState),
         mixOptions: components.getMixOptions(input)
-    }, [12, 12, 12, 12])
+    }, [6, 12, 12, 12])
 }
 
 inputsHandler._optionButtonsForInput = (input) => {

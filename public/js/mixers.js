@@ -44,7 +44,7 @@ mixersHandler._asCard = (mixer) => {
         body: mixersHandler._mixerCardBody(mixer),
         state: components.stateBox(mixer, mixersHandler.setState),
         mixOptions: components.getMixOptions(mixer)
-    })
+    }, [6, 12, 12, 12]
 }
 
 mixersHandler._optionButtonsForMixer = (mixer) => {
