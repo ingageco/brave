@@ -1,22 +1,31 @@
 import yaml
 import os
 import brave.exceptions
+
 DEFAULT_CONFIG_FILENAME = 'config/default.yaml'
 c = {}
+file = ''
 
 
 def init(filename=DEFAULT_CONFIG_FILENAME):
     try:
         with open(filename, 'r') as stream:
-            global c
+            global c, file
             c = yaml.load(stream, Loader=yaml.FullLoader)
             if c is None:
                 c = {}
+            file = filename
     except FileNotFoundError as e:
         print('Unable to open config file "%s": %s' % (filename, e))
         exit(1)
-
     _validate()
+
+
+def save(string):
+    global file
+    f = open(file, "w")
+    f.write(string)
+    f.close()
 
 
 def raw():

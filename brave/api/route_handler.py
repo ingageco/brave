@@ -1,10 +1,12 @@
 import brave.helpers
+
 logger = brave.helpers.get_logger('api_routes')
 import sanic
 import sanic.response
 from brave.helpers import run_on_master_thread_when_idle
 from brave.outputs.image import ImageOutput
 from sanic.exceptions import InvalidUsage
+import brave.config
 import brave.config_file
 
 
@@ -161,6 +163,12 @@ async def restart(request):
 async def config_yaml(request):
     return sanic.response.text(brave.config_file.as_yaml(request['session']),
                                headers={'Content-Type': 'application/x-yaml'})
+
+
+async def save_config(request):
+    conf = brave.config_file.as_yaml(request['session'])
+    brave.config.save(conf)
+    return _status_ok_response()
 
 
 def _get_output(request, id):

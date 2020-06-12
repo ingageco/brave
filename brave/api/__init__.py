@@ -86,6 +86,7 @@ class RestApi(object):
 
         app.add_route(route_handler.restart, '/api/restart', methods=['POST'])
         app.add_route(route_handler.config_yaml, '/api/config/current.yaml', methods=['GET'])
+        app.add_route(route_handler.save_config, '/api/config/save', methods=['POST'])
 
         @app.websocket('/socket')
         async def feed(request, ws):

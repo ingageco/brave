@@ -22,6 +22,7 @@ function onPageLoad() {
         $('#new-output-button').click(outputsHandler.showFormToAdd)
         $('#refresh-page-button').click(updatePage)
         $('#restart-brave-button').click(restartBraveConfirmation)
+        $('#save-current-config-button').click(saveCurrentConfig)
         $("#top-message").hide();
         updatePage();
         websocket.setup();
@@ -271,6 +272,21 @@ function restartBrave(config) {
             showMessage('Sorry, an error occurred', 'danger')
         }
     });
+}
+
+function saveCurrentConfig() {
+    $.ajax(
+        {type: 'POST'},
+        url: 'api/config/save',
+        dataType: "json",
+        contentType: "application/json",
+        success: function() {
+            showMessage('Config file saved', 'success')
+        },
+        error: function() {
+            showMessage('Sorry, an error occurred', 'danger')
+        }
+    )
 }
 
 function ucFirst(string) {
