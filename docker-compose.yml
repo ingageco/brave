@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  brave:
+    build: .
+    image: brave:v0
+    container_name: brave
+    restart: unless-stopped
+    env_file: .env
+    environment:
+        - SANIC_NO_UVLOOP=true
+        - SANIC_NO_UJSON=true
+        - DEBIAN_FRONTEND="noninteractive"
+    ports:
+      - "8000:5000"
+    command: bash ./run.sh
